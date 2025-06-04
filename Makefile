@@ -6,7 +6,7 @@
 #    By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/14 11:56:46 by olardeux          #+#    #+#              #
-#    Updated: 2025/05/14 12:27:17 by olardeux         ###   ########.fr        #
+#    Updated: 2025/06/04 12:36:18 by olardeux         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = IRCServer
 CC = c++
 CFLAGS = -Wall -Wextra -Werror -std=c++98
 RM = rm -f
-SRCS = main.cpp Server.cpp
+SRCS = main.cpp Server.cpp Client.cpp
 OBJ_DIR = obj
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRCS:.cpp=.o))
 

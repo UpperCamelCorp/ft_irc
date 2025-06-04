@@ -6,7 +6,7 @@
 /*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 12:27:39 by olardeux          #+#    #+#             */
-/*   Updated: 2025/05/14 12:41:08 by olardeux         ###   ########.fr       */
+/*   Updated: 2025/06/04 12:52:22 by olardeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ int main(int argc, char **argv)
     if (port <= 0 || port > 65535)
     {
         std::cerr << "Invalid port number" << std::endl;
+        std::cerr << "Enter a port number between 1 and 65535." << std::endl;
         return EXIT_FAILURE;
     }
-
     try
     {
         Server server(port);
