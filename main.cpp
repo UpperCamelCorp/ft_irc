@@ -6,11 +6,22 @@
 /*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 12:27:39 by olardeux          #+#    #+#             */
-/*   Updated: 2025/06/04 12:52:22 by olardeux         ###   ########.fr       */
+/*   Updated: 2025/06/04 13:34:46 by olardeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Server.hpp"
+
+bool isRunning = true;
+
+void signalHandler(int signal)
+{
+    if (signal == SIGINT || signal == SIGTERM)
+    {
+        std::cout << "Server shutting down..." << std::endl;
+        isRunning = false;
+    }
+}
 
 int main(int argc, char **argv)
 {
@@ -27,6 +38,8 @@ int main(int argc, char **argv)
         std::cerr << "Enter a port number between 1 and 65535." << std::endl;
         return EXIT_FAILURE;
     }
+    signal(SIGINT, signalHandler);
+    signal(SIGTERM, signalHandler);
     try
     {
         Server server(port);

@@ -6,7 +6,7 @@
 /*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 10:57:56 by olardeux          #+#    #+#             */
-/*   Updated: 2025/06/04 12:52:21 by olardeux         ###   ########.fr       */
+/*   Updated: 2025/06/04 13:40:02 by olardeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,11 +141,13 @@ void Server::closeClient(int client_fd)
 
 void Server::start()
 {
-    this->isRunning = 1;
-    while (this->isRunning)
+    isRunning = true;
+    while (isRunning)
     {
         if (poll(this->_poll_fds.data(), this->_poll_fds.size(), -1) < 0)
         {
+            if (!isRunning)
+                continue;
             std::cerr << "Error polling sockets" << std::endl;
             throw std::runtime_error("Error polling sockets");
         }
@@ -164,4 +166,10 @@ void Server::start()
             }
         }
     }
+    for (std::map<int, Client>::iterator it = this->_clients.begin(); it != this->_clients.end(); ++it)
+    {
+        close(it->second.getSocketFd());
+    }
+    this->_clients.clear();
+    this->_poll_fds.clear();
 }
