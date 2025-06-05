@@ -22,8 +22,8 @@ This project aims to create an IRC (Internet Relay Chat) server using C++ and so
 
 1. Clone the repository:
     ```sh
-    git clone https://github.com/yourusername/irc-server.git
-    cd irc-server
+    git clone git@github.com:UpperCamelCorp/ft_irc.git irc
+    cd irc
     ```
 
 2. Build the project:
@@ -33,19 +33,19 @@ This project aims to create an IRC (Internet Relay Chat) server using C++ and so
 
 3. Run the server:
     ```sh
-    ./irc-server
+    ./IRCServer
     ```
 
 ## Usage
 
 1. Start the server:
     ```sh
-    ./irc-server
+    ./IRCServer
     ```
 
 2. Connect to the server using an IRC client:
     - Server address: `localhost`
-    - Port: `6667`
+    - Port: `4444`
 
 ## Contributing
 
