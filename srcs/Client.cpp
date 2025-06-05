@@ -6,7 +6,7 @@
 /*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 09:10:17 by olardeux          #+#    #+#             */
-/*   Updated: 2025/06/04 12:52:19 by olardeux         ###   ########.fr       */
+/*   Updated: 2025/06/05 13:03:33 by olardeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,5 @@ void Client::handleCommand(std::string command)
         std::cout << "Executing command: " << execCommand << std::endl;
         //parsing
     } while (command.length() > 0);
-}    
+}
+
