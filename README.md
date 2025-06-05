@@ -14,9 +14,8 @@ This project aims to create an IRC (Internet Relay Chat) server using C++ and so
 
 ## Requirements
 
-- C++11 or later
+- C++98 or later
 - POSIX compliant operating system (Linux, macOS)
-- CMake 3.10 or later
 - GCC or Clang compiler
 
 ## Installation
@@ -29,9 +28,6 @@ This project aims to create an IRC (Internet Relay Chat) server using C++ and so
 
 2. Build the project:
     ```sh
-    mkdir build
-    cd build
-    cmake ..
     make
     ```
 
@@ -54,11 +50,3 @@ This project aims to create an IRC (Internet Relay Chat) server using C++ and so
 ## Contributing
 
 Contributions are welcome! Please fork the repository and submit a pull request.
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
-## Contact
-
-For any questions or suggestions, please open an issue or contact the project maintainer at `your.email@example.com`.
