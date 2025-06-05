@@ -6,7 +6,7 @@
 /*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 08:16:37 by olardeux          #+#    #+#             */
-/*   Updated: 2025/06/04 12:24:57 by olardeux         ###   ########.fr       */
+/*   Updated: 2025/06/05 15:00:39 by olardeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,24 @@
 # include <string>
 # include <cstring>
 # include <cstdlib>
-# include <unistd.h>
+# include <vector>
+#include <map>
+#include <sys/socket.h>
+#include <sys/types.h>
+#include <netinet/in.h>
+#include <poll.h>
+#include <signal.h>
+#include <unistd.h>
+# include <fcntl.h>
 
 class Client
 {
     private:
         int         _socket_fd;
         std::string _name;
+        std::string _nickname;
         std::string _recvCommand;
-        void        _closeClient();
+        void        ircCommand(std::string command);
     public:
         void setSocketFd(int fd);
         int  getSocketFd() const;

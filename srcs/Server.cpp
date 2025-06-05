@@ -6,7 +6,7 @@
 /*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 10:57:56 by olardeux          #+#    #+#             */
-/*   Updated: 2025/06/05 13:03:32 by olardeux         ###   ########.fr       */
+/*   Updated: 2025/06/05 14:38:54 by olardeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ void Server::handleClient(Client &client)
         return;
     }
 
-    std::cout << "From : " << client.getSocketFd() << " received: " << buffer << std::endl;
+    //std::cout << "From : " << client.getSocketFd() << " received: " << buffer << std::endl;
     client.handleCommand(std::string(buffer, bytes_received));
 }
 

@@ -6,7 +6,7 @@
 /*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 09:10:17 by olardeux          #+#    #+#             */
-/*   Updated: 2025/06/05 13:03:33 by olardeux         ###   ########.fr       */
+/*   Updated: 2025/06/05 15:01:27 by olardeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,34 @@ void Client::handleCommand(std::string command)
             command = command.substr(pos + 2);
         }
         std::cout << "Executing command: " << execCommand << std::endl;
-        //parsing
+        ircCommand(execCommand);
     } while (command.length() > 0);
 }
 
+void Client::ircCommand(std::string command)
+{
+    std::string enumtypes[] = {
+        "NICK",
+        "USER",
+        "JOIN",
+        "PART",
+        "PRIVMSG",
+        "PING",
+        "PONG",
+        "QUIT",
+        "LIST",
+        "TOPIC",
+        "MODE"
+    };
+
+    std::string commandType = command.substr(0, command.find(' '));
+    for (size_t i = 0; i < 10; ++i)
+    {
+        if (commandType == enumtypes[i])
+        {
+            std::cout << "Command type: " << enumtypes[i] << std::endl;
+
+            return;
+        }
+    }
+}
