@@ -6,7 +6,7 @@
 /*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 12:27:39 by olardeux          #+#    #+#             */
-/*   Updated: 2025/06/04 13:34:46 by olardeux         ###   ########.fr       */
+/*   Updated: 2025/06/05 13:03:31 by olardeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void signalHandler(int signal)
 {
     if (signal == SIGINT || signal == SIGTERM)
     {
-        std::cout << "Server shutting down..." << std::endl;
+        std::cout << std::endl << "Server shutting down..." << std::endl;
         isRunning = false;
     }
 }
