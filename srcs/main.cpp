@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: michen <michen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 12:27:39 by olardeux          #+#    #+#             */
-/*   Updated: 2025/06/05 13:03:31 by olardeux         ###   ########.fr       */
+/*   Updated: 2025/06/06 12:50:31 by michen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Server.hpp"
+#include "inc/Server.hpp"
 
 bool isRunning = true;
 

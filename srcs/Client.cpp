@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   Client.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: michen <michen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 09:10:17 by olardeux          #+#    #+#             */
-/*   Updated: 2025/06/06 12:43:28 by olardeux         ###   ########.fr       */
+/*   Updated: 2025/06/06 12:50:51 by michen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Client.hpp"
+#include "inc/Client.hpp"
 
 Client::Client() : _socket_fd(-1), _name(""), _nickname(""), _recvCommand("")
 {
