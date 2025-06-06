@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: michen <michen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 10:57:56 by olardeux          #+#    #+#             */
-/*   Updated: 2025/06/06 10:39:55 by olardeux         ###   ########.fr       */
+/*   Updated: 2025/06/06 12:50:47 by michen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Server.hpp"
+#include "inc/Server.hpp"
 
 Server::Server(int port) : _port(port)
 {
