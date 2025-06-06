@@ -6,7 +6,7 @@
 /*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 08:16:37 by olardeux          #+#    #+#             */
-/*   Updated: 2025/06/06 10:55:50 by olardeux         ###   ########.fr       */
+/*   Updated: 2025/06/06 12:37:17 by olardeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ class Client
         void        nickCommand(std::string command);
         void        userCommand(std::string command);
         void        pingCommand(std::string command);
+        void       unavailableCommand(std::string command);
         void        authClient();
     public:
         Client();

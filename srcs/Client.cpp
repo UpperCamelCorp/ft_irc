@@ -6,7 +6,7 @@
 /*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 09:10:17 by olardeux          #+#    #+#             */
-/*   Updated: 2025/06/06 10:59:05 by olardeux         ###   ########.fr       */
+/*   Updated: 2025/06/06 12:38:49 by olardeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,13 +120,22 @@ void Client::userCommand(std::string command)
     this->_name = userInfo;
     std::cout << "User information set to: " << this->_name << std::endl;
     this->_authStep.isUserSet = true;
-}
+}ircCommand
+ircCommand
+ircCommand
+ircCommand
+ircCommand
 
 void Client::pingCommand(std::string command)
 {
     std::string response = "PONG :" + command.substr(command.find(' ') + 1) + "\r\n";
     send(this->_socket_fd, response.c_str(), response.length(), 0);
     std::cout << "PONG sent in response to PING." << std::endl;
+}
+
+void Client::unavailableCommand(std::string command)
+{
+    std::cout << "Error: Command '" << command << "' is not available." << std::endl;
 }
 void Client::ircCommand(std::string command)
 {
@@ -146,15 +155,15 @@ void Client::ircCommand(std::string command)
     void (Client::*commandFunctions[])(std::string) = {
         &Client::nickCommand,
         &Client::userCommand,
-        &Client::ircCommand, // JOIN
-        &Client::ircCommand, // PART
-        &Client::ircCommand, // PRIVMSG
+        &Client::unavailableCommand, // JOIN
+        &Client::unavailableCommand, // PART
+        &Client::unavailableCommand, // PRIVMSG
         &Client::pingCommand,
-        &Client::ircCommand, // PONG
-        &Client::ircCommand, // QUIT
-        &Client::ircCommand, // LIST
-        &Client::ircCommand, // TOPIC
-        &Client::ircCommand  // MODE
+        &Client::unavailableCommand, // PONG
+        &Client::unavailableCommand, // QUIT
+        &Client::unavailableCommand, // LIST
+        &Client::unavailableCommand, // TOPIC
+        &Client::unavailableCommand  // MODE
     };
     std::string commandType = command.substr(0, command.find(' '));
     for (size_t i = 0; i < 10; ++i)
