@@ -13,7 +13,7 @@
 # Project settings
 NAME        = IRCServer
 CC          = c++
-CFLAGS      = -Wall -Wextra -Werror -std=c++98 -g
+CFLAGS      = -Wall -Wextra -Werror -std=c++98
 RM          = rm -f
 SRCS_FILES  = main.cpp\
 			Server.cpp\
