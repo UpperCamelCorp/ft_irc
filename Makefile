@@ -24,6 +24,8 @@ INC         = -I srcs/inc
 OBJ_DIR     = obj
 OBJS        = $(addprefix $(OBJ_DIR)/, $(SRCS_FILES:.cpp=.o))
 
+DEP = $(OBJS:.o=.d)
+
 # Colors for output
 RED         = \033[31m
 GREEN       = \033[32m
@@ -48,10 +50,12 @@ $(NAME): $(OBJS)
 	@echo "$(CYAN)Executable: $(NAME)$(RESET)"
 	@echo "$(FOOTER)"
 
+-include $(DEP)
+
 $(OBJ_DIR)/%.o: $(SRCS_DIR)/%.cpp
 	@mkdir -p $(OBJ_DIR)
 	@echo -n "$(YELLOW)Compiling $<...$(RESET)"
-	@$(CC) $(CFLAGS) $(INC) -c $< -o $@
+	@$(CC) $(CFLAGS) $(INC) -c -MMD -MP $< -o $@
 	@echo -e "\r$(GREEN)Successfully compiled $<$(RESET)"
 
 clean:
