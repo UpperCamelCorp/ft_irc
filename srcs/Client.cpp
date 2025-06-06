@@ -6,7 +6,7 @@
 /*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 09:10:17 by olardeux          #+#    #+#             */
-/*   Updated: 2025/06/06 12:38:49 by olardeux         ###   ########.fr       */
+/*   Updated: 2025/06/06 12:43:28 by olardeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,11 +120,7 @@ void Client::userCommand(std::string command)
     this->_name = userInfo;
     std::cout << "User information set to: " << this->_name << std::endl;
     this->_authStep.isUserSet = true;
-}ircCommand
-ircCommand
-ircCommand
-ircCommand
-ircCommand
+}
 
 void Client::pingCommand(std::string command)
 {
