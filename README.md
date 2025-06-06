@@ -33,14 +33,14 @@ This project aims to create an IRC (Internet Relay Chat) server using C++ and so
 
 3. Run the server:
     ```sh
-    ./IRCServer
+    ./ircserver
     ```
 
 ## Usage
 
 1. Start the server:
     ```sh
-    ./IRCServer
+    ./ircserver
     ```
 
 2. Connect to the server using an IRC client:
