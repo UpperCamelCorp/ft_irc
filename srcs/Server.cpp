@@ -6,7 +6,7 @@
 /*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 10:57:56 by olardeux          #+#    #+#             */
-/*   Updated: 2025/06/05 14:38:54 by olardeux         ###   ########.fr       */
+/*   Updated: 2025/06/06 10:39:55 by olardeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ void Server::acceptClient()
     this->_poll_fds.push_back(clientPollFd);
     newClient.setSocketFd(client_fd);
     this->_clients[client_fd] = newClient;
+    std::cout << "New client connected: " << client_fd << std::endl;
 }
 
 void Server::handleClient(Client &client)
