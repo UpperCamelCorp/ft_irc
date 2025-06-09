@@ -1,0 +1,7 @@
+obj/
+.vscode
+.dist
+*.d
+*.o
+.DS_Store
+IRCServer
