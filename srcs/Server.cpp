@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   Server.cpp                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: michen <michen@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/14 10:57:56 by olardeux          #+#    #+#             */
-/*   Updated: 2025/06/06 12:50:47 by michen           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "inc/Server.hpp"
 
 Server::Server(int port) : _port(port)
@@ -20,16 +8,16 @@ Server::Server(int port) : _port(port)
     this->_server_addr.sin_family = AF_INET;
     this->_server_addr.sin_addr.s_addr = INADDR_ANY;
     this->_server_addr.sin_port = htons(this->_port);
-    
+
     this->_socket_fd = socket(AF_INET, SOCK_STREAM, 0);
     if (this->_socket_fd < 0)
     {
         std::cerr << "Error creating socket" << std::endl;
         exit(EXIT_FAILURE);
     }
-    
+
     if (setsockopt(this->_socket_fd, SOL_SOCKET, SO_REUSEADDR, &optValue, sizeof(optValue)) < 0)
-    
+
     {
         std::cerr << "Error setting socket options" << std::endl;
         close(this->_socket_fd);

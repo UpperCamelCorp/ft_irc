@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   Client.cpp                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: michen <michen@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/04 09:10:17 by olardeux          #+#    #+#             */
-/*   Updated: 2025/06/06 12:50:51 by michen           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "inc/Client.hpp"
 
 Client::Client() : _socket_fd(-1), _name(""), _nickname(""), _recvCommand("")
@@ -106,7 +94,7 @@ void Client::nickCommand(std::string command)
     std::cout << "Nickname set to: " << this->_nickname << std::endl;
     if (!this->_authStep.isRegistered)
         this->_authStep.isNickSet = true;
-    
+
 }
 
 void Client::userCommand(std::string command)
