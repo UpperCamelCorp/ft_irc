@@ -1,4 +1,5 @@
 #include "inc/Client.hpp"
+#include "cmds/cmdNICK.cpp"
 
 Client::Client() : _socket_fd(-1), _name(""), _nickname(""), _recvCommand("")
 {
@@ -82,20 +83,24 @@ void Client::authClient()
         send(this->_socket_fd, response.c_str(), response.length(), 0);
     }
 }
-void Client::nickCommand(std::string command)
-{
-    std::string nickname = command.substr(command.find(' ') + 1);
-    if (nickname.empty())
-    {
-        std::cout << "Error: NICK command requires a nickname." << std::endl;
-        return;
-    }
-    this->_nickname = nickname;
-    std::cout << "Nickname set to: " << this->_nickname << std::endl;
-    if (!this->_authStep.isRegistered)
-        this->_authStep.isNickSet = true;
+// void Client::nickCommand(std::string command)
+// {
+//     std::string nickname;
 
-}
+//     if ()
+        
+//     nickname = command.substr(command.find(' ') + 1, 35);
+//     if (nickname.empty())
+//     {
+//         std::cout << "Error: NICK command requires a nickname." << std::endl;
+//         return;
+//     }
+//     this->_nickname = nickname;
+//     std::cout << "Nickname set to: " << this->_nickname << std::endl;
+//     if (!this->_authStep.isRegistered)
+//         this->_authStep.isNickSet = true;
+
+// }
 
 void Client::userCommand(std::string command)
 {
