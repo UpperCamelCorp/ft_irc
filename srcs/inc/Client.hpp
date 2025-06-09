@@ -15,6 +15,7 @@
 #include <unistd.h>
 # include <fcntl.h>
 
+class Server;
 
 typedef struct s_authenticationStep
 {
@@ -28,6 +29,7 @@ typedef struct s_authenticationStep
 class Client
 {
     private:
+        Server      *_server; // pointer vers le l'intsance de Server (pour les channels)
         int         _socket_fd;
         std::string _name;
         std::string _nickname;
@@ -37,13 +39,14 @@ class Client
         void        nickCommand(std::string command);
         void        userCommand(std::string command);
         void        pingCommand(std::string command);
-        void       unavailableCommand(std::string command);
+        void        unavailableCommand(std::string command);
         void        authClient();
     public:
         Client();
-        void setSocketFd(int fd);
-        int  getSocketFd() const;
-        void handleCommand(std::string command);
+        void        setServer(Server &server);
+        void        setSocketFd(int fd);
+        int         getSocketFd() const;
+        void        handleCommand(std::string command);
 };
 
 #endif

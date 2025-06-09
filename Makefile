@@ -11,13 +11,14 @@
 # **************************************************************************** #
 
 # Project settings
-NAME        = IRCServer
+NAME        = ircserver
 CC          = c++
 CFLAGS      = -Wall -Wextra -Werror -std=c++98
 RM          = rm -f
 SRCS_FILES  = main.cpp\
 			Server.cpp\
-			Client.cpp
+			Client.cpp \
+			Channel.cpp
 SRCS_DIR  	= srcs
 SRCS = $(addprefix $(SRCS_DIR)/, $(SRCS_FILES))
 INC         = -I srcs/inc
