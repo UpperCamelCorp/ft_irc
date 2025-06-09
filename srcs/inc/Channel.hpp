@@ -1,5 +1,5 @@
-#ifndef CHANNNEL_HPP
-# define CHANNNEL_HPP
+#ifndef CHANNEL_HPP
+# define CHANNEL_HPP
 
 #include "Client.hpp"
 
