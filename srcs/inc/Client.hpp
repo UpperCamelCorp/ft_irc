@@ -29,7 +29,10 @@ class Client
 {
     private:
         int         _socket_fd;
-        std::string _name;
+        std::string _username;
+		std::string _hostname;
+		std::string _servername;
+		std::string _realname;
         std::string _nickname;
         t_authStep  _authStep;
         std::string _recvCommand;
