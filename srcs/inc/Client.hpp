@@ -41,11 +41,13 @@ class Client
         void        pingCommand(std::string command);
         void        unavailableCommand(std::string command);
         void        authClient();
+        bool        nameDuplicated(std::string name);
     public:
         Client();
         void        setServer(Server &server);
         void        setSocketFd(int fd);
         int         getSocketFd() const;
+        std::string getNickname() const;
         void        handleCommand(std::string command);
 };
 

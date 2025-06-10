@@ -114,6 +114,11 @@ void Server::handleClient(Client &client)
     client.handleCommand(std::string(buffer, bytes_received));
 }
 
+std::map<int, Client> Server::getClients() const
+{
+    return this->_clients;
+}
+
 void Server::closeClient(int client_fd)
 {
     close(client_fd);

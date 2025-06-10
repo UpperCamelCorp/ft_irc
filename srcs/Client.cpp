@@ -1,4 +1,5 @@
 #include "inc/Client.hpp"
+#include "inc/Server.hpp"
 
 Client::Client() : _server(NULL), _socket_fd(-1), _name(""), _nickname(""), _recvCommand("")
 {
@@ -21,6 +22,11 @@ void Client::setSocketFd(int fd)
 int Client::getSocketFd() const
 {
     return this->_socket_fd;
+}
+
+std::string Client::getNickname() const
+{
+    return this->_nickname;
 }
 
 void Client::handleCommand(std::string command)
@@ -87,6 +93,27 @@ void Client::authClient()
         send(this->_socket_fd, response.c_str(), response.length(), 0);
     }
 }
+
+bool Client::nameDuplicated(std::string name)
+{
+    if (this->_server == NULL)
+    {
+        std::cout << "Error: Server instance is not set." << std::endl;
+        return false;
+    }
+    
+    std::map<int, Client> clients = this->_server->getClients();
+    for (std::map<int, Client>::iterator it = clients.begin(); it != clients.end(); ++it)
+    {
+        if (it->second.getNickname() == name)
+        {
+            std::cout << "Error: Nickname '" << name << "' is already in use." << std::endl;
+            return true;
+        }
+    }
+    return false;
+}
+
 void Client::nickCommand(std::string command)
 {
     std::string nickname = command.substr(command.find(' ') + 1);
