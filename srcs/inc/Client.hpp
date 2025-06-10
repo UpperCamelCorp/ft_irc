@@ -6,6 +6,7 @@
 # include <cstring>
 # include <cstdlib>
 # include <vector>
+# include <sstream>
 #include <map>
 #include <sys/socket.h>
 #include <sys/types.h>
