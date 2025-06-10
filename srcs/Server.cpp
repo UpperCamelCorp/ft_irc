@@ -65,6 +65,7 @@ Server::~Server()
 void Server::acceptClient()
 {
     Client newClient;
+    newClient.setServer(*this);
     int client_fd;
     struct sockaddr_in client_addr;
     socklen_t client_addr_len = sizeof(client_addr);

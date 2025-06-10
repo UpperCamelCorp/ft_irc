@@ -1,11 +1,16 @@
 #include "inc/Client.hpp"
 
-Client::Client() : _socket_fd(-1), _name(""), _nickname(""), _recvCommand("")
+Client::Client() : _server(NULL), _socket_fd(-1), _name(""), _nickname(""), _recvCommand("")
 {
     this->_authStep.isNickSet = false;
     this->_authStep.isUserSet = false;
     this->_authStep.isRegistered = false;
     this->_authStep.isPasswordSet = false;
+}
+
+void Client::setServer(Server &server)
+{
+    this->_server = &server;
 }
 
 void Client::setSocketFd(int fd)
