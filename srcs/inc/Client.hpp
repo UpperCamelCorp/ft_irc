@@ -37,7 +37,7 @@ class Client
         void        nickCommand(std::string command);
         void        userCommand(std::string command);
         void        pingCommand(std::string command);
-        void       unavailableCommand(std::string command);
+        void        unavailableCommand(std::string command);
         void        authClient();
     public:
         Client();
@@ -47,3 +47,18 @@ class Client
 };
 
 #endif
+
+// /**
+//  * Split a std::string into a vector of substrings using a delimiter.
+//  */
+// inline std::vector<std::string> splitString(const std::string& str, char delimiter)
+// {
+//     std::vector<std::string> tokens;
+//     std::string token;
+//     std::istringstream tokenStream(str);
+//     while (std::getline(tokenStream, token, delimiter))
+//     {
+//         tokens.push_back(token);
+//     }
+//     return tokens;
+// }
