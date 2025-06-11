@@ -2,19 +2,11 @@
 
 Client::Client() : _server(NULL), _username(""), _nickname(""), _recvCommand(""), _hostname(""), _servername(""), _realname("")
 {
-	this->_socket_fd = -1;
 	this->_authStep.isNickSet = false;
 	this->_authStep.isUserSet = false;
 	this->_authStep.isRegistered = false;
 	this->_authStep.isPasswordSet = false;
 }
-{
-    this->_authStep.isNickSet = false;
-    this->_authStep.isUserSet = false;
-    this->_authStep.isRegistered = false;
-    this->_authStep.isPasswordSet = false;
-}
-
 void Client::setServer(Server &server)
 {
     this->_server = &server;
