@@ -1,6 +1,6 @@
 #include "inc/Client.hpp"
 
-Client::Client() : _server(NULL), _username(""), _nickname(""), _recvCommand(""), _hostname(""), _servername(""), _realname("")
+Client::Client() : _server(NULL), _username(""), _hostname(""), _servername(""), _realname(""), _nickname(""), _recvCommand("")
 {
 	this->_authStep.isNickSet = false;
 	this->_authStep.isUserSet = false;
