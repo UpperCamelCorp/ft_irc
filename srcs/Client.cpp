@@ -101,13 +101,6 @@ void Client::nickCommand(std::string command)
 
 }
 
-void Client::pingCommand(std::string command)
-{
-    std::string response = "PONG :" + command.substr(command.find(' ') + 1) + "\r\n";
-    send(this->_socket_fd, response.c_str(), response.length(), 0);
-    std::cout << "PONG sent in response to PING." << std::endl;
-}
-
 void Client::unavailableCommand(std::string command)
 {
     std::cout << "Error: Command '" << command << "' is not available." << std::endl;
