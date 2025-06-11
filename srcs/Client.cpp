@@ -135,7 +135,7 @@ void Client::ircCommand(std::string command)
         &Client::unavailableCommand, // PRIVMSG
         &Client::pingCommand,
         &Client::unavailableCommand, // PONG
-        &Client::unavailableCommand, // QUIT
+        &Client::quitCommand,
         &Client::unavailableCommand, // LIST
         &Client::unavailableCommand, // TOPIC
         &Client::unavailableCommand  // MODE
