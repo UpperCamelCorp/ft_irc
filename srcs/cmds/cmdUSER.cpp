@@ -30,7 +30,6 @@ void Client::userCommand(std::string command)
 	username = params[0];
 	hostname = params[1];
 	servername = params[2];
-
 	realname = "";
 	for (size_t i = 3; i < params.size(); ++i)
 	{
@@ -49,13 +48,6 @@ void Client::userCommand(std::string command)
 	if (username.empty() || hostname.empty() || servername.empty() || realname.empty())
 	{
 		std::string response = ":localhost 461 " + this->_nickname + " USER :Invalid or empty parameters\r\n";
-		send(this->_socket_fd, response.c_str(), response.length(), 0);
-		return;
-	}
-
-	if (username.length() > 9)
-	{
-		std::string response = ":localhost 461 " + (this->_nickname.empty() ? "*" : this->_nickname) + " USER :Username too long\r\n";
 		send(this->_socket_fd, response.c_str(), response.length(), 0);
 		return;
 	}
