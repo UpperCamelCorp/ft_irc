@@ -1,5 +1,6 @@
 #include "inc/Client.hpp"
 
+
 Client::Client() : _server(NULL), _username(""), _hostname(""), _servername(""), _realname(""), _nickname(""), _recvCommand("")
 {
 	this->_authStep.isNickSet = false;
@@ -141,7 +142,7 @@ void Client::ircCommand(std::string command)
         &Client::unavailableCommand  // MODE
     };
     std::string commandType = command.substr(0, command.find(' '));
-    for (size_t i = 0; i < 10; ++i)
+    for (size_t i = 0; i < 11; ++i)
     {
         if (commandType == enumtypes[i])
         {
