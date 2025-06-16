@@ -37,7 +37,7 @@ class Server
         ~Server();
         void                start();
         void handleSignal(int signal);
-
+		std::map<std::string, Channel>& getChannels() { return _channels; }
 };
 
 #endif
