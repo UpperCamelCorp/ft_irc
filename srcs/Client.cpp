@@ -131,7 +131,7 @@ void Client::ircCommand(std::string command)
         &Client::unavailableCommand, // PONG
         &Client::quitCommand,
         &Client::unavailableCommand, // LIST
-        &Client::unavailableCommand, // TOPIC
+        &Client::topicCommand,
         &Client::unavailableCommand  // MODE
     };
     std::string commandType = command.substr(0, command.find(' '));
