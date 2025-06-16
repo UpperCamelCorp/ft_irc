@@ -7,9 +7,9 @@ SRCS_FILES  = main.cpp\
 			Server.cpp\
 			Client.cpp\
       		Channel.cpp\
-			cmds/cmdUSER.cpp \
-			cmds/cmdPING.cpp 
-
+			cmds/cmdUSER.cpp\
+			cmds/cmdQUIT.cpp\
+			cmds/cmdPING.cpp
 SRCS_DIR  	= srcs
 SRCS = $(addprefix $(SRCS_DIR)/, $(SRCS_FILES))
 INC         = -I srcs/inc
