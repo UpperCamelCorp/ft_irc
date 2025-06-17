@@ -7,11 +7,11 @@
 static void	ErrInvalid(int error_n, std::string err_arg)
 {
 	if (error_n == 431)
-        std::cout << "localhost 431 " << err_arg << ":No nickname given" << std::endl;
+        std::cout << ":localhost 431 " << err_arg << ":No nickname given" << std::endl;
 	else if (error_n == 432)
-		std::cout << "localhost 432 " << err_arg << ":Erroneus nickname" << std::endl;
+		std::cout << ":localhost 432 " << err_arg << ":Erroneus nickname" << std::endl;
 	else if (error_n == 433)
-		std::cout << "localhost :Nickname is already in use" << std::endl;
+		std::cout << ":localhost :Nickname is already in use" << std::endl;
 	else
 		return ;
 }
