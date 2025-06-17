@@ -4,4 +4,7 @@ obj/
 *.d
 *.o
 .DS_Store
+IRCServer
 ircserver
+.editorconfig
+.gitignore
