@@ -44,6 +44,8 @@ class Client
         void setSocketFd(int fd);
         int  getSocketFd() const;
         void handleCommand(std::string command);
+
+        std::string getNick();
 };
 
 #endif

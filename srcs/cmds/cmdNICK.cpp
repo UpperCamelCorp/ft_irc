@@ -3,31 +3,20 @@
 #include <sstream>
 #include <string>
 
-// static bool	valid_nick(std::string nick) {
-// 	if (isdigit(nick[0]))
-// 		return (false);
-// 	if (isalpha(nick[0]))
-// 		return (true);
-// }
 
-// std::stringstream test("this_is_a_test____string");
-// std::string segment;
-// std::vector<std::string> seglist;
+static void	ErrInvalid(int error_n, std::string err_arg)
+{
+	if (error_n == 431)
+        std::cout << "localhost 431 " << err_arg << ":No nickname given" << std::endl;
+	else if (error_n == 432)
+		std::cout << "localhost 432 " << err_arg << ":Erroneus nickname" << std::endl;
+	else if (error_n == 433)
+		std::cout << "localhost :Nickname is already in use" << std::endl;
+	else
+		return ;
+}
 
-// while(std::getline(test, segment, '_')) {
-//     if (!segment.empty())
-//         seglist.push_back(segment);
-// }
-
-// for (size_t i = 0; i < seglist.size(); ++i) {
-//     std::cout << seglist[i] << std::endl;
-// }
-
-// return (0);
-
-
-
-static bool	valid_charset(std::string nick)
+static bool	valid_charset(std::string nick, std::string actual)
 {
 	int	i;
 
@@ -39,7 +28,10 @@ static bool	valid_charset(std::string nick)
 			|| nick[i] == '|')
             i++;
         else
+		{
+			ErrInvalid(432, actual);
             return false;
+		}
 	}
     return true;
 }
@@ -48,39 +40,37 @@ void Client::nickCommand(std::string command)
 {
 	std::istringstream cmdstr(command);
 
-	std::vector<std::string> seglist;
+	std::vector<std::string> arglist;
 	std::string segment;
 	std::string nickname;
 
 	while (std::getline(cmdstr, segment, ' '))
 	{
 		if (!segment.empty())
-			seglist.push_back(segment);
+			arglist.push_back(segment);
 	}
 
-    if (seglist.size() < 2)
-        std::cout << "<client> :No nickname given" << std::endl;
-    std::cout << " TESTTT " << seglist[0] << std::endl;
-
-	if (seglist[1].size() < 6 && (isalpha(seglist[1][0]) && valid_charset(seglist[1])))
-		std::cout << "OK : " << command << std::endl;
-	else
-		std::cout << "command is : " << command << std::endl; // error case throw
-
-	{
-		std::cout << "Found : " << command.substr(command.find(' ')) << std::endl;
+    if (arglist.size() < 2) {
+		ErrInvalid(431, this->getNick());
 	}
-	nickname = command.substr(command.find(' ') + 1, 35);
-	if (nickname.empty())
-	{
-		std::cout << "Error: NICK command requires a nickname." << std::endl;
-		return ;
+	else {
+		nickname = command.substr(command.find(' ') + 1, 35);
+
+		if (nickname.size() < 9 && valid_charset(nickname, this->getNick()))
+		{
+			if (isalpha(nickname[0]))
+			{
+				//if (nameDuplicated(nickname))
+				//	ErrInvalid(433, nickname);
+				this->_nickname = nickname;
+				std::cout << "Nickname set to: " << this->_nickname << std::endl;
+				if (!this->_authStep.isRegistered)
+				this->_authStep.isNickSet = true;
+			}
+			else
+				ErrInvalid(432, this->getNick());
+		}
+		else
+			return ;
 	}
-	this->_nickname = nickname;
-	std::cout << "Nickname set to: " << this->_nickname << std::endl;
-	if (!this->_authStep.isRegistered)
-		this->_authStep.isNickSet = true;
 }
-
-/* USE POLL FOR ERR MSG
-   OR WRITE IT BUT*/
