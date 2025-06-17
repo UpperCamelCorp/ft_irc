@@ -1,12 +1,17 @@
 #include "inc/Client.hpp"
 #include "cmds/cmdNICK.cpp"
 
-Client::Client() : _socket_fd(-1), _name(""), _nickname(""), _recvCommand("")
+
+Client::Client() : _server(NULL), _username(""), _hostname(""), _servername(""), _realname(""), _nickname(""), _recvCommand("")
 {
 	this->_authStep.isNickSet = false;
 	this->_authStep.isUserSet = false;
 	this->_authStep.isRegistered = false;
 	this->_authStep.isPasswordSet = false;
+}
+void Client::setServer(Server &server)
+{
+    this->_server = &server;
 }
 
 void Client::setSocketFd(int fd)
@@ -83,44 +88,6 @@ void Client::authClient()
 		send(this->_socket_fd, response.c_str(), response.length(), 0);
 	}
 }
-// void Client::nickCommand(std::string command)
-// {
-//     std::string nickname;
-
-//     if ()
-		
-//     nickname = command.substr(command.find(' ') + 1, 35);
-//     if (nickname.empty())
-//     {
-//         std::cout << "Error: NICK command requires a nickname." << std::endl;
-//         return;
-//     }
-//     this->_nickname = nickname;
-//     std::cout << "Nickname set to: " << this->_nickname << std::endl;
-//     if (!this->_authStep.isRegistered)
-//         this->_authStep.isNickSet = true;
-
-// }
-
-void Client::userCommand(std::string command)
-{
-	std::string userInfo = command.substr(command.find(' ') + 1);
-	if (userInfo.empty())
-	{
-		std::cout << "Error: USER command requires user information." << std::endl;
-		return;
-	}
-	this->_name = userInfo;
-	std::cout << "User information set to: " << this->_name << std::endl;
-	this->_authStep.isUserSet = true;
-}
-
-void Client::pingCommand(std::string command)
-{
-	std::string response = "PONG :" + command.substr(command.find(' ') + 1) + "\r\n";
-	send(this->_socket_fd, response.c_str(), response.length(), 0);
-	std::cout << "PONG sent in response to PING." << std::endl;
-}
 
 void Client::unavailableCommand(std::string command)
 {
@@ -128,44 +95,43 @@ void Client::unavailableCommand(std::string command)
 }
 void Client::ircCommand(std::string command)
 {
-	std::string enumtypes[] = {
-		"NICK",
-		"USER",
-		"JOIN",
-		"PART",
-		"PRIVMSG",
-		"PING",
-		"PONG",
-		"QUIT",
-		"LIST",
-		"TOPIC",
-		"MODE"
-	};
-	void (Client::*commandFunctions[])(std::string) = {
-		&Client::nickCommand,
-		&Client::userCommand,
-		&Client::unavailableCommand, // JOIN
-		&Client::unavailableCommand, // PART
-		&Client::unavailableCommand, // PRIVMSG
-		&Client::pingCommand,
-		&Client::unavailableCommand, // PONG
-		&Client::unavailableCommand, // QUIT
-		&Client::unavailableCommand, // LIST
-		&Client::unavailableCommand, // TOPIC
-		&Client::unavailableCommand  // MODE
-	};
-	std::string commandType = command.substr(0, command.find(' '));
-	for (size_t i = 0; i < 10; ++i)
-	{
-		if (commandType == enumtypes[i])
-		{
-			std::cout << "Command type: " << enumtypes[i] << std::endl;
-			(this->*commandFunctions[i])(command);
-			return;
-		}
-	}
+    std::string enumtypes[] = {
+        "NICK",
+        "USER",
+        "JOIN",
+        "PART",
+        "PRIVMSG",
+        "PING",
+        "PONG",
+        "QUIT",
+        "LIST",
+        "TOPIC",
+        "MODE"
+    };
+    void (Client::*commandFunctions[])(std::string) = {
+        &Client::nickCommand,
+        &Client::userCommand,
+        &Client::unavailableCommand, // JOIN
+        &Client::unavailableCommand, // PART
+        &Client::unavailableCommand, // PRIVMSG
+        &Client::pingCommand,
+        &Client::unavailableCommand, // PONG
+        &Client::quitCommand,
+        &Client::unavailableCommand, // LIST
+        &Client::unavailableCommand, // TOPIC
+        &Client::unavailableCommand  // MODE
+    };
+    std::string commandType = command.substr(0, command.find(' '));
+    for (size_t i = 0; i < 11; ++i)
+    {
+        if (commandType == enumtypes[i])
+        {
+            std::cout << "Command type: " << enumtypes[i] << std::endl;
+            (this->*commandFunctions[i])(command);
+            return;
+        }
+    }
 }
-
 /* -- Getter / Setter ---------------------------------------------------------------*/
 
 std::string     Client::getNick(){

@@ -1,15 +1,3 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/05/14 11:56:46 by olardeux          #+#    #+#              #
-#    Updated: 2025/06/04 12:36:18 by olardeux         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
-
 # Project settings
 NAME        = ircserver
 CC          = c++
@@ -18,7 +6,10 @@ RM          = rm -f
 SRCS_FILES  = main.cpp\
 			Server.cpp\
 			Client.cpp\
-			# cmdNICK.cpp\
+      Channel.cpp\
+			cmds/cmdUSER.cpp\
+			cmds/cmdQUIT.cpp\
+			cmds/cmdPING.cpp
 
 SRCS_DIR  	= srcs
 SRCS = $(addprefix $(SRCS_DIR)/, $(SRCS_FILES))
@@ -55,7 +46,7 @@ $(NAME): $(OBJS)
 -include $(DEP)
 
 $(OBJ_DIR)/%.o: $(SRCS_DIR)/%.cpp
-	@mkdir -p $(OBJ_DIR)
+	@mkdir -p $(dir $@)
 	@echo -n "$(YELLOW)Compiling $<...$(RESET)"
 	@$(CC) $(CFLAGS) $(INC) -c -MMD -MP $< -o $@
 	@echo -e "\r$(GREEN)Successfully compiled $<$(RESET)"

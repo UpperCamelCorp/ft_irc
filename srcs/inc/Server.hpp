@@ -2,6 +2,7 @@
 # define SERVER_HPP
 
 #include "Client.hpp"
+#include "Channel.hpp"
 
 # include <iostream>
 # include <string>
@@ -26,6 +27,7 @@ class Server
         int                        _socket_fd;
         struct sockaddr_in         _server_addr;
         std::map<int, Client>      _clients;
+        std::map<std::string, Channel> _channels;
         std::vector<struct pollfd> _poll_fds;
         void                       closeClient(int client_fd);
         void                       acceptClient();
@@ -35,7 +37,7 @@ class Server
         ~Server();
         void                start();
         void handleSignal(int signal);
-
+		std::map<std::string, Channel>& getChannels() { return _channels; }
 };
 
 #endif
