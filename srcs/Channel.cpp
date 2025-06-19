@@ -143,3 +143,23 @@ bool Channel::isOperator(Client &client) const
     }
     return false;
 }
+
+/**
+ * @brief Sends a message to all clients in the channel except the sender.
+ *
+ * This function iterates through the list of clients in the channel and sends
+ * the specified message to each client, excluding the one who sent the message.
+ *
+ * @param message The message to be sent to other clients. This message must already be formatted according to the IRC RFC specifications.
+ * @param sender Reference to the Client object who is sending the message.
+ */
+void Channel::sendMessage(const std::string &message, Client &sender)
+{
+    for (std::vector<Client>::iterator it = this->_clients.begin(); it != this->_clients.end(); ++it)
+    {
+        if (it->getSocketFd() != sender.getSocketFd())
+        {
+            send(it->getSocketFd(), message.c_str(), message.length(), 0);
+        }
+    }
+}

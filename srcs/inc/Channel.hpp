@@ -26,6 +26,7 @@ class Channel
         bool                isOperator(Client &client) const;
         void                removeOperator(Client &client);
         std::vector<int>    getOperators() const;
+        void                sendMessage(const std::string &message, Client &sender);
 };
 
 #endif
