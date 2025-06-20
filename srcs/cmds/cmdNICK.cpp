@@ -1,22 +1,32 @@
-// #include "../inc/Server.hpp"
 #include "../inc/Client.hpp"
 #include <sstream>
 #include <string>
 
 
-static void	ErrInvalid(int error_n, std::string err_arg)
+static void	ErrInvalid(int error_n, std::string err_arg, int socket_fd)
 {
+	std::string	response;
+
 	if (error_n == 431)
-        std::cout << ":localhost 431 " << err_arg << ":No nickname given" << std::endl;
+	{
+		response = ":localhost 431 " + err_arg + ":No nickname given\n";
+		send(socket_fd, response.c_str(), response.length(), 0);
+	}
 	else if (error_n == 432)
-		std::cout << ":localhost 432 " << err_arg << ":Erroneus nickname" << std::endl;
+	{
+		response = ":localhost 432 " + err_arg + ":Erroneus nickname\n";
+		send(socket_fd, response.c_str(), response.length(), 0);
+	}
 	else if (error_n == 433)
-		std::cout << ":localhost :Nickname is already in use" << std::endl;
+	{
+		response = ":localhost :Nickname is already in use";
+		send(socket_fd, response.c_str(), response.length(), 0);
+	}
 	else
 		return ;
 }
 
-static bool	valid_charset(std::string nick, std::string actual)
+static bool	valid_charset(std::string nick, std::string actual, int socket_fd)
 {
 	int	i;
 
@@ -29,7 +39,7 @@ static bool	valid_charset(std::string nick, std::string actual)
             i++;
         else
 		{
-			ErrInvalid(432, actual);
+			ErrInvalid(432, actual, socket_fd);
             return false;
 		}
 	}
@@ -42,7 +52,6 @@ void Client::nickCommand(std::string command)
 
 	std::vector<std::string> arglist;
 	std::string segment;
-	std::string nickname;
 
 	while (std::getline(cmdstr, segment, ' '))
 	{
@@ -51,12 +60,12 @@ void Client::nickCommand(std::string command)
 	}
 
     if (arglist.size() < 2) {
-		ErrInvalid(431, this->getNick());
+		ErrInvalid(431, this->getNick(), this->_socket_fd);
 	}
 	else {
-		nickname = command.substr(command.find(' ') + 1, 35);
+		std::string nickname = arglist[1];
 
-		if (nickname.size() < 9 && valid_charset(nickname, this->getNick()))
+		if (nickname.size() < 9 && valid_charset(nickname, this->getNick(), this->_socket_fd))
 		{
 			if (isalpha(nickname[0]))
 			{
@@ -68,7 +77,7 @@ void Client::nickCommand(std::string command)
 				this->_authStep.isNickSet = true;
 			}
 			else
-				ErrInvalid(432, this->getNick());
+				ErrInvalid(432, this->getNick(), this->_socket_fd);
 		}
 		else
 			return ;

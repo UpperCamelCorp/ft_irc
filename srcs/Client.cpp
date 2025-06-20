@@ -1,6 +1,4 @@
 #include "inc/Client.hpp"
-#include "cmds/cmdNICK.cpp"
-
 
 Client::Client() : _server(NULL), _username(""), _hostname(""), _servername(""), _realname(""), _nickname(""), _recvCommand("")
 {
@@ -69,13 +67,13 @@ void Client::handleCommand(std::string command)
 
 void Client::authClient()
 {
-	std::cout << "Authenticating client: " << this->_nickname << std::endl;
+	std::cout << "Authenticating client: " << this->getNick() << std::endl;
 	if (this->_authStep.isNickSet && this->_authStep.isUserSet && !this->_authStep.isRegistered)
 	{
-		std::string response = ":localhost 001 " + this->_nickname + " :Welcome to the IRC server, " + this->_nickname + "!\r\n";
+		std::string response = ":localhost 001 " + this->getNick() + " :Welcome to the IRC server, " + this->getNick() + "!\r\n";
 		send(this->_socket_fd, response.c_str(), response.length(), 0);
 		this->_authStep.isRegistered = true;
-		std::cout << "Client " << this->_nickname << " is now registered." << std::endl;
+		std::cout << "Client " << this->getNick() << " is now registered." << std::endl;
 	}
 	else
 	{
@@ -84,7 +82,7 @@ void Client::authClient()
 			std::cout << "Nickname is not set." << std::endl;
 		if (!this->_authStep.isUserSet)
 			std::cout << "User information is not set." << std::endl;
-		std::string response = ":localhost 451 " + this->_nickname + " :You must set your nickname and user information before registering.\r\n";
+		std::string response = ":localhost 451 " + this->getNick() + " :You must set your nickname and user information before registering.\r\n";
 		send(this->_socket_fd, response.c_str(), response.length(), 0);
 	}
 }
