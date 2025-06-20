@@ -44,6 +44,7 @@ class Client
 		void		userCommand(std::string command);
 		void		pingCommand(std::string command);
 		void		quitCommand(std::string command);
+		void		joinCommand(std::string command);
 		void		unavailableCommand(std::string command);
 		void		authClient();
 	public:
