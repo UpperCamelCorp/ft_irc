@@ -168,3 +168,13 @@ std::map<std::string, Channel>& Server::getChannels()
 {
 	return this->_channels;
 }
+
+bool Server::isNameDuplicate(const std::string &name) const
+{
+    for (std::map<std::string, Channel>::const_iterator it = this->_channels.begin(); it != this->_channels.end(); ++it)
+    {
+        if (it->first == name)
+            return true;
+    }
+    return false;
+}

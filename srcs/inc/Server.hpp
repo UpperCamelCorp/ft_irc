@@ -35,9 +35,10 @@ class Server
     public:
         Server(int port);
         ~Server();
-        void                start();
+        void                            start();
         void handleSignal(int signal);
 		std::map<std::string, Channel>& getChannels();
+        bool                            isNameDuplicate(const std::string &name) const;
 };
 
 #endif
