@@ -1,7 +1,4 @@
 #include "../inc/Client.hpp"
-#include <sstream>
-#include <string>
-
 
 static void	ErrInvalid(int error_n, std::string err_arg, int socket_fd)
 {
@@ -33,10 +30,11 @@ static bool	valid_charset(std::string nick, std::string actual, int socket_fd)
 	i = 0;
 	while (nick[i])
 	{
+		std::cout << nick[i] << std::endl;
 		if (isalnum(nick[i]) || nick[i] == '{' || nick[i] == '}'
 			|| nick[i] == '[' || nick[i] == ']' || nick[i] == '\\'
-			|| nick[i] == '|')
-            i++;
+			|| nick[i] == '|' || (i > 0 && nick[i] == '\n'))
+				i++;
         else
 		{
 			ErrInvalid(432, actual, socket_fd);
@@ -55,23 +53,37 @@ void Client::nickCommand(std::string command)
 
 	while (std::getline(cmdstr, segment, ' '))
 	{
-		if (!segment.empty())
+		if (!segment.empty() && segment[segment.length() - 1] == '\n')
+		{
+		    segment = segment.substr(0, segment.length() - 1);
+		    if (!segment.empty() && segment[segment.length() - 1] == '\r')
+			{
+		    	segment = segment.substr(0, segment.length() - 1);
+		    }
 			arglist.push_back(segment);
+ 		}
+		else if (!segment.empty())
+		{
+			arglist.push_back(segment);
+		}
 	}
-
+			
     if (arglist.size() < 2) {
 		ErrInvalid(431, this->getNick(), this->_socket_fd);
 	}
 	else {
 		std::string nickname = arglist[1];
 
-		if (nickname.size() < 9 && valid_charset(nickname, this->getNick(), this->_socket_fd))
+		if (valid_charset(nickname, this->getNick(), this->_socket_fd))
 		{
 			if (isalpha(nickname[0]))
 			{
 				//if (nameDuplicated(nickname))
 				//	ErrInvalid(433, nickname);
-				this->_nickname = nickname;
+				if (nickname.size() > 9)
+					this->_nickname = nickname.substr(0, 9);
+				else
+					this->_nickname = nickname;
 				std::cout << "Nickname set to: " << this->_nickname << std::endl;
 				if (!this->_authStep.isRegistered)
 				this->_authStep.isNickSet = true;
