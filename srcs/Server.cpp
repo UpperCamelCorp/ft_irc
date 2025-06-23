@@ -163,3 +163,8 @@ void Server::start()
     this->_clients.clear();
     this->_poll_fds.clear();
 }
+
+std::map<std::string, Channel>& Server::getChannels()
+{
+	return this->_channels;
+}
