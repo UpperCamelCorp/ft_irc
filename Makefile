@@ -10,7 +10,8 @@ SRCS_FILES  = main.cpp\
 			cmds/cmdUSER.cpp \
 			cmds/cmdPING.cpp \
 			cmds/cmdQUIT.cpp \
-			cmds/cmdTOPIC.cpp
+			cmds/cmdTOPIC.cpp \
+			cmds/cmdPART.cpp
 
 SRCS_DIR  	= srcs
 SRCS = $(addprefix $(SRCS_DIR)/, $(SRCS_FILES))
