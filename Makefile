@@ -1,8 +1,9 @@
 # Project settings
 NAME        = ircserver
 CC          = c++
-CFLAGS      = -Wall -Wextra -Werror -std=c++98
+CFLAGS      = -Wall -Wextra -Werror -std=c++98 -g3
 RM          = rm -f
+
 SRCS_FILES  = main.cpp\
 			Server.cpp\
 			Client.cpp\
@@ -11,7 +12,8 @@ SRCS_FILES  = main.cpp\
 			cmds/cmdPING.cpp \
 			cmds/cmdQUIT.cpp \
 			cmds/cmdTOPIC.cpp \
-			cmds/cmdPART.cpp
+			cmds/cmdPART.cpp \
+      cmds/cmdNICK.cpp \
 
 SRCS_DIR  	= srcs
 SRCS = $(addprefix $(SRCS_DIR)/, $(SRCS_FILES))
