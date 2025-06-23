@@ -1,22 +1,24 @@
 #ifndef CLIENT_HPP
 # define CLIENT_HPP
 
-# include <iostream>
-# include <string>
-# include <cstring>
 # include <cstdlib>
-# include <vector>
-# include <sstream>
-#include <map>
-#include <sys/socket.h>
-#include <sys/types.h>
-#include <netinet/in.h>
-#include <poll.h>
-#include <signal.h>
-#include <unistd.h>
+# include <cstring>
 # include <fcntl.h>
+# include <iostream>
+# include <map>
+# include <netinet/in.h>
+# include <poll.h>
+# include <signal.h>
+# include <sstream>
+# include <sstream>
+# include <string>
+# include <string>
+# include <sys/socket.h>
+# include <sys/types.h>
+# include <unistd.h>
+# include <vector>
 
-class Server;
+class		Server;
 
 typedef struct s_authenticationStep
 {
@@ -24,8 +26,7 @@ typedef struct s_authenticationStep
 	bool	isUserSet;
 	bool	isRegistered;
 	bool	isPasswordSet;
-} t_authStep;
-
+}			t_authStep;
 
 class Client
 {
@@ -44,15 +45,18 @@ class Client
 		void		userCommand(std::string command);
 		void		pingCommand(std::string command);
 		void		quitCommand(std::string command);
+		void		topicCommand(std::string command);
+		void		partCommand(std::string command);
 		void		joinCommand(std::string command);
 		void		unavailableCommand(std::string command);
 		void		authClient();
 	public:
 		Client();
-		void		setServer(Server &server);
-		void		setSocketFd(int fd);
-		int			getSocketFd() const;
-		void		handleCommand(std::string command);
+		void        setServer(Server &server);
+		void        setSocketFd(int fd);
+		int         getSocketFd() const;
+		void        handleCommand(std::string command);
+  	std::string getNick();
 };
 
 #endif
