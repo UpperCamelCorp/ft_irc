@@ -125,7 +125,7 @@ void Client::ircCommand(std::string command)
         &Client::nickCommand,
         &Client::userCommand,
         &Client::unavailableCommand, // JOIN
-        &Client::unavailableCommand, // PART
+        &Client::partCommand,
         &Client::unavailableCommand, // PRIVMSG
         &Client::pingCommand,
         &Client::unavailableCommand, // PONG
