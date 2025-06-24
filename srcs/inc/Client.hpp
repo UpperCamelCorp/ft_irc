@@ -47,6 +47,7 @@ class Client
 		void		quitCommand(std::string command);
 		void		topicCommand(std::string command);
 		void		partCommand(std::string command);
+		void		joinCommand(std::string command);
 		void		unavailableCommand(std::string command);
 		void		authClient();
 	public:
