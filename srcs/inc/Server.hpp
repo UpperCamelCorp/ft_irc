@@ -38,6 +38,7 @@ class Server
         void                start();
         void handleSignal(int signal);
 		std::map<std::string, Channel>& getChannels();
+        bool                isNicknameAvailable(const std::string &nickname) const;
 };
 
 #endif
