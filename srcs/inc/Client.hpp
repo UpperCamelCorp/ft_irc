@@ -1,22 +1,7 @@
 #ifndef CLIENT_HPP
 # define CLIENT_HPP
 
-# include <cstdlib>
-# include <cstring>
-# include <fcntl.h>
-# include <iostream>
-# include <map>
-# include <netinet/in.h>
-# include <poll.h>
-# include <signal.h>
-# include <sstream>
-# include <sstream>
-# include <string>
-# include <string>
-# include <sys/socket.h>
-# include <sys/types.h>
-# include <unistd.h>
-# include <vector>
+#include "Irc.hpp"
 
 class		Server;
 

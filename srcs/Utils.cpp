@@ -1,4 +1,4 @@
-#include "Client.hpp"
+#include "Irc.hpp"
 
 std::vector<std::string>	split_cmd(std::string str, char sep)
 {

@@ -1,22 +1,7 @@
 #ifndef SERVER_HPP
 # define SERVER_HPP
 
-#include "Client.hpp"
-#include "Channel.hpp"
-
-# include <iostream>
-# include <string>
-# include <cstring>
-# include <cstdlib>
-# include <vector>
-#include <map>
-#include <sys/socket.h>
-#include <sys/types.h>
-#include <netinet/in.h>
-#include <poll.h>
-#include <signal.h>
-#include <unistd.h>
-# include <fcntl.h>
+#include "Irc.hpp"
 
 extern bool isRunning;
 

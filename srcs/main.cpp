@@ -1,4 +1,4 @@
-#include "inc/Server.hpp"
+#include "Irc.hpp"
 
 bool isRunning = true;
 

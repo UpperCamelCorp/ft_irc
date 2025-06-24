@@ -1,4 +1,4 @@
-#include "inc/Client.hpp"
+#include "Irc.hpp"
 
 Client::Client() : _server(NULL), _username(""), _hostname(""), _servername(""), _realname(""), _nickname(""), _recvCommand("")
 {

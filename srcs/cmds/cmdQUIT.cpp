@@ -1,6 +1,4 @@
-#include "../inc/Client.hpp"
-#include "../inc/Channel.hpp"
-#include "../inc/Server.hpp"
+#include "Irc.hpp"
 
 void Client::quitCommand(std::string command)
 {
