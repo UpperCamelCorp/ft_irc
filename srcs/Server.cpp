@@ -168,3 +168,15 @@ std::map<std::string, Channel>& Server::getChannels()
 {
 	return this->_channels;
 }
+
+bool Server::isNicknameAvailable(const std::string &nickname) const
+{
+    for (std::map<int, Client>::const_iterator it = this->_clients.begin(); it != this->_clients.end(); ++it)
+    {
+        if (it->second.getNick() == nickname)
+        {
+            return false;
+        }
+    }
+    return true;
+}
