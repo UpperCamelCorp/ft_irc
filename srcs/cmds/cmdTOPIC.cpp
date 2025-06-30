@@ -1,4 +1,7 @@
 #include "Irc.hpp"
+#include "Client.hpp"
+#include "Server.hpp"
+#include "Channel.hpp"
 
 void Client::topicCommand(std::string command)
 {

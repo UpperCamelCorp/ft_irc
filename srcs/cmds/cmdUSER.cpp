@@ -1,4 +1,5 @@
 #include "Irc.hpp"
+#include "Client.hpp"
 
 void Client::userCommand(std::string command)
 {

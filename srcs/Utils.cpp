@@ -15,3 +15,13 @@ std::vector<std::string>	split_cmd(std::string str, char sep)
 	}
 	return (arglist);
 }
+
+std::string trim_cmd(const std::string& input)
+{
+    size_t end = input.size();
+    while (end > 0 && (input[end - 1] == '\n' || input[end - 1] == '\r'))
+	{
+        --end;
+    }
+    return input.substr(0, end);
+}

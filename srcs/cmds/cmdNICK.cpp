@@ -1,4 +1,5 @@
 #include "Irc.hpp"
+#include "Client.hpp"
 
 static void	ErrInvalid(int error_n, std::string err_arg, int socket_fd)
 {

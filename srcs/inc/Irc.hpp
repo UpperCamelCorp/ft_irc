@@ -1,10 +1,6 @@
 #ifndef IRC_HPP
 # define IRC_HPP
 
-# include "Client.hpp"
-# include "Channel.hpp"
-# include "Server.hpp"
-
 # include <sstream>
 # include <iostream>
 # include <string>
@@ -19,5 +15,13 @@
 # include <sys/socket.h>
 # include <sys/types.h>
 # include <netinet/in.h>
+
+class Client;
+class Channel;
+class Server;
+
+// Utils.cpp functions
+std::vector<std::string>	split_cmd(std::string str, char sep);
+std::string 				trim_cmd(const std::string& input);
 
 #endif

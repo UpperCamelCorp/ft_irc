@@ -2,6 +2,8 @@
 # define SERVER_HPP
 
 #include "Irc.hpp"
+#include "Client.hpp"
+#include "Channel.hpp"
 
 extern bool isRunning;
 
