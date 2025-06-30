@@ -1,6 +1,6 @@
 #include "../inc/Client.hpp"
 
-void Client::joinCommand(const std::string command)
+void Client::joinCommand(const std::string& command)
 {
 	std::istringstream cmdstr(command);
 	std::vector<std::string> arglist;
