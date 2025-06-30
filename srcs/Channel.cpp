@@ -88,7 +88,7 @@ std::string Channel::getTopic() const
  *
  * @param client Reference to the Client object to be added as an operator.
  */
-void Channel::addOperator(Client &client)
+void Channel::addOperator(const Client &client)
 {
     if (!isOperator(client))
         this->_operators.push_back(client.getSocketFd());

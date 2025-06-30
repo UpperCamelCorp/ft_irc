@@ -22,7 +22,7 @@ class Channel
         std::string         getName() const;
         std::vector<Client> getClients() const;
         std::string         getTopic() const;
-        void                addOperator(Client &client);
+        void                addOperator(const Client &client);
         bool                isOperator(const Client &client) const;
         void                removeOperator(const Client &client);
         std::vector<int>    getOperators() const;
