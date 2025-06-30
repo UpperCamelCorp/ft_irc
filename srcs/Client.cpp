@@ -132,7 +132,8 @@ void Client::ircCommand(std::string command)
 }
 /* -- Getter / Setter ---------------------------------------------------------------*/
 
-std::string     Client::getNick(){
+std::string     Client::getNick() const
+{
 	if (this->_nickname != "")
 		return (this->_nickname);
 	else
