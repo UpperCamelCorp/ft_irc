@@ -40,15 +40,15 @@ class Client
 		std::string _nickname;
 		t_authStep  _authStep;
 		std::string _recvCommand;
-		void		ircCommand(std::string command);
+		void		ircCommand(const std::string command);
 		void		nickCommand(std::string command);
-		void		userCommand(std::string command);
-		void		pingCommand(std::string command);
+		void		userCommand(const std::string command);
+		void		pingCommand(const std::string command);
 		void		quitCommand(std::string command);
 		void		topicCommand(std::string command);
 		void		partCommand(std::string command);
-		void		joinCommand(std::string command);
-		void		unavailableCommand(std::string command);
+		void		joinCommand(const std::string command);
+		void		unavailableCommand(const std::string command);
 		void		authClient();
 	public:
 		Client();
