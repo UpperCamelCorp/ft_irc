@@ -180,3 +180,9 @@ bool Server::isNicknameAvailable(const std::string &nickname) const
     }
     return true;
 }
+
+bool Server::isNameDuplicate(const std::string &name) const
+{
+    return this->_channels.find(name) != this->_channels.end();
+}
+
