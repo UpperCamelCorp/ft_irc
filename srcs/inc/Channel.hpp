@@ -18,7 +18,8 @@ class Channel
         std::string _password;
     public:
         Channel(const std::string &name);
-        void                addClient(Client &client, std::string password);
+        Channel(const std::string &name, const std::string &password);
+        bool                addClient(Client &client, std::string password);
         void                addOperator(Client &client);
         void                removeClient(Client &client);
         void                removeOperator(Client &client);

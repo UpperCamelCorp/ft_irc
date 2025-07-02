@@ -2,10 +2,14 @@
 
 #include "Client.hpp"
 
-Channel::Channel(const std::string &name) : _name(name), _topic("")
+Channel::Channel(const std::string &name) : _name(name), _topic(""), _password("")
 {
 }
 
+Channel::Channel(const std::string &name, const std::string &password) : _name(name), _password(password) 
+{
+    std::cout << "Created a restricted channel called : " << name << std::endl;
+}
 /**
  * @brief Adds a client to the channel.
  *
@@ -14,16 +18,13 @@ Channel::Channel(const std::string &name) : _name(name), _topic("")
  *
  * @param client Reference to the Client object to be added.
  */
-void Channel::addClient(Client &client, std::string password)
+bool Channel::addClient(Client &client, std::string password)
 {
-    if (password == _password)
+    if (_password == "" || password == _password)
         this->_clients.push_back(client);
     else
-    {
-        std::cout << "Error : bad password\n";
-        send()
-        return ;
-    }
+        return false;
+    return true;
 }
 
 /**
