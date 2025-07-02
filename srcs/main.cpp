@@ -13,7 +13,7 @@ void signalHandler(int signal)
 
 int main(int argc, char **argv)
 {
-    if (argc != 2)
+    if (argc != 2 && argc != 3)
     {
         std::cerr << "Usage: " << argv[0] << " <port>" << std::endl;
         return EXIT_FAILURE;
@@ -31,6 +31,17 @@ int main(int argc, char **argv)
     try
     {
         Server server(port);
+        if (argc == 3)
+        {
+            std::string password(argv[2]);
+            server.setPassword(password);
+            std::cout << "Server password set to: " << password << std::endl;
+        }
+        else
+        {
+            std::cout << "No password set for the server." << std::endl;
+        }
+        std::cout << "Server started on port " << port << std::endl;
         server.start();
     }
     catch (const std::exception &e)

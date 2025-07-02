@@ -24,6 +24,7 @@ class Server
 {
     private:
         int                        _port;
+        std::string                _password;
         int                        _socket_fd;
         struct sockaddr_in         _server_addr;
         std::map<int, Client>      _clients;
@@ -36,6 +37,8 @@ class Server
         Server(int port);
         ~Server();
         void                            start();
+        void                            setPassword(const std::string &password);
+        const std::string&              getPassword() const;
         void handleSignal(int signal);
 		std::map<std::string, Channel>& getChannels();
         bool                isNicknameAvailable(const std::string &nickname) const;
