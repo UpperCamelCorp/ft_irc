@@ -1,4 +1,5 @@
-#include "inc/Client.hpp"
+#include "Client.hpp"
+#include "Irc.hpp"
 
 #include "Server.hpp"
 
@@ -89,11 +90,11 @@ void Client::authClient()
 	}
 }
 
-void Client::unavailableCommand(std::string command)
+void Client::unavailableCommand(const std::string& command)
 {
 	std::cout << "Error: Command '" << command << "' is not available." << std::endl;
 }
-void Client::ircCommand(std::string command)
+void Client::ircCommand(const std::string& command)
 {
     std::string enumtypes[] = {
         "NICK",
@@ -108,7 +109,7 @@ void Client::ircCommand(std::string command)
         "TOPIC",
         "MODE"
     };
-    void (Client::*commandFunctions[])(std::string) = {
+    void (Client::*commandFunctions[])(const std::string&) = {
         &Client::nickCommand,
         &Client::userCommand,
         &Client::joinCommand, // JOIN
@@ -134,7 +135,8 @@ void Client::ircCommand(std::string command)
 }
 /* -- Getter / Setter ---------------------------------------------------------------*/
 
-std::string     Client::getNick(){
+std::string     Client::getNick() const
+{
 	if (this->_nickname != "")
 		return (this->_nickname);
 	else

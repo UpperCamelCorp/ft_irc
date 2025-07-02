@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include "Irc.hpp"
 
 void	sendServerRpl(int const client_fd, std::string client_buffer);
 

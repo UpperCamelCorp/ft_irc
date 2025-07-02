@@ -26,6 +26,7 @@ static void	ErrInvalid(int error_n, std::string err_arg, int socket_fd)
 }
 
 static std::vector<std::string>	split_cmd(std::string str, char sep)
+
 {
 	std::istringstream cmdstr(str);
 	std::vector<std::string> arglist;

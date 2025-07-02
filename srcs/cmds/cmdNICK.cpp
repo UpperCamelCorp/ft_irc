@@ -1,4 +1,5 @@
-#include "../inc/Client.hpp"
+#include "Irc.hpp"
+#include "Client.hpp"
 
 static void	ErrInvalid(int error_n, std::string err_arg, int socket_fd)
 {
@@ -42,7 +43,7 @@ static bool	valid_charset(std::string nick, std::string actual, int socket_fd)
 	return (true);
 }
 
-void Client::nickCommand(std::string command)
+void Client::nickCommand(const std::string& command)
 {
 	std::istringstream cmdstr(command);
 	std::vector<std::string> arglist;
