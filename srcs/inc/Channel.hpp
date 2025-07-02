@@ -14,6 +14,7 @@ class Channel
         bool _topicMode;
         bool _inviteOnly;
         std::string _key;
+        int _maxClients;
     public:
         Channel(const std::string &name);
         void                addClient(const Client &client);
@@ -33,6 +34,8 @@ class Channel
         bool                isInviteOnly() const;
         void                setChannelKey(const std::string &key);
         std::string         getChannelKey() const;
+        void                setMaxClients(int maxClients);
+        int                 getMaxClients() const;
 };
 
 #endif

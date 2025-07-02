@@ -232,3 +232,25 @@ std::string Channel::getChannelKey() const
 {
     return this->_key;
 }
+
+/**
+ * @brief Sets the maximum number of clients allowed in the channel.
+ *
+ * This function sets a limit on the number of clients that can join the channel.
+ *
+ * @param maxClients The maximum number of clients allowed in the channel.
+ */
+void Channel::setMaxClients(int maxClients)
+{
+    this->_maxClients = maxClients;
+}
+
+/**
+ * @brief Retrieves the maximum number of clients allowed in the channel.
+ *
+ * @return The maximum number of clients that can join the channel.
+ */
+int Channel::getMaxClients() const  
+{
+    return this->_maxClients;
+}
