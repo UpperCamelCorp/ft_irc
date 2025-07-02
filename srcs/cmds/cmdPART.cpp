@@ -2,7 +2,7 @@
 #include "../inc/Server.hpp"
 #include "../inc/Channel.hpp"
 
-void Client::partCommand(std::string command)
+void Client::partCommand(const std::string& command)
 {
 	std::string params = command.substr(command.find(' ') + 1);
 	if (!params.empty() && params[params.length() - 1] == '\n')

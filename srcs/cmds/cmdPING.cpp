@@ -1,6 +1,6 @@
 #include "../inc/Client.hpp"
 
-void Client::pingCommand(std::string command)
+void Client::pingCommand(const std::string& command)
 {
 	std::string token = command.substr(command.find(' ') + 1);
 
