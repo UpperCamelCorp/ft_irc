@@ -13,6 +13,7 @@ class Channel
         std::vector<int> _operators;
         bool _topicMode;
         bool _inviteOnly;
+        std::string _key;
     public:
         Channel(const std::string &name);
         void                addClient(const Client &client);
@@ -30,6 +31,8 @@ class Channel
         bool                getTopicMode() const;
         void                setInviteOnly(bool inviteOnly);
         bool                isInviteOnly() const;
+        void                setChannelKey(const std::string &key);
+        std::string         getChannelKey() const;
 };
 
 #endif

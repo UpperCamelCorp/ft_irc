@@ -210,3 +210,25 @@ bool Channel::isInviteOnly() const
 {
     return this->_inviteOnly;
 }
+
+/**
+ * @brief Sets the channel key (password) for the channel.
+ *
+ * This function sets a key that is required to join the channel when invite-only mode is enabled.
+ *
+ * @param key The key to set for the channel.
+ */
+void Channel::setChannelKey(const std::string &key)
+{
+    this->_key = key;
+}
+
+/**
+ * @brief Retrieves the channel key (password) for the channel.
+ *
+ * @return The key of the channel as a std::string.
+ */
+std::string Channel::getChannelKey() const
+{
+    return this->_key;
+}
