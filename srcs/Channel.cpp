@@ -165,12 +165,48 @@ void Channel::sendMessage(const std::string &message, const Client &sender)
     }
 }
 
+/**
+ * @brief Sets the topic mode for the channel.
+ *
+ * This function enables or disables the topic mode for the channel.
+ * When topic mode is enabled, only channel operators can change the channel topic.
+ *
+ * @param mode Boolean value indicating whether to enable (true) or disable (false) topic mode.
+ */
 void Channel::setTopicMode(bool mode)
 {
     this->_topicMode = mode;
 }
 
+/**
+ * @brief Checks if the channel's topic mode is enabled.
+ *
+ * @return true if the topic mode is enabled, false otherwise.
+ */
 bool Channel::getTopicMode() const
 {
     return this->_topicMode;
+}
+
+/**
+ * @brief Sets the invite-only mode for the channel.
+ *
+ * This function enables or disables the invite-only mode for the channel.
+ * When invite-only mode is enabled, only invited users can join the channel.
+ *
+ * @param inviteOnly Boolean value indicating whether to enable (true) or disable (false) invite-only mode.
+ */
+void Channel::setInviteOnly(bool inviteOnly)
+{
+    this->_inviteOnly = inviteOnly;
+}
+
+/**
+ * @brief Checks if the channel is set to invite-only mode.
+ *
+ * @return true if the channel is invite-only, false otherwise.
+ */
+bool Channel::isInviteOnly() const
+{
+    return this->_inviteOnly;
 }
