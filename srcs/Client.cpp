@@ -1,5 +1,7 @@
 #include "inc/Client.hpp"
 
+#include "Server.hpp"
+
 Client::Client() : _server(NULL), _username(""), _hostname(""), _servername(""), _realname(""), _nickname(""), _recvCommand("")
 {
 	this->_authStep.isNickSet = false;
@@ -109,7 +111,7 @@ void Client::ircCommand(std::string command)
     void (Client::*commandFunctions[])(std::string) = {
         &Client::nickCommand,
         &Client::userCommand,
-        &Client::unavailableCommand, // JOIN
+        &Client::joinCommand, // JOIN
         &Client::partCommand,
         &Client::unavailableCommand, // PRIVMSG
         &Client::pingCommand,

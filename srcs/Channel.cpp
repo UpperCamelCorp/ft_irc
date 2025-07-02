@@ -1,5 +1,7 @@
 #include "inc/Channel.hpp"
 
+#include "Client.hpp"
+
 Channel::Channel(const std::string &name) : _name(name), _topic("")
 {
 }
@@ -12,9 +14,16 @@ Channel::Channel(const std::string &name) : _name(name), _topic("")
  *
  * @param client Reference to the Client object to be added.
  */
-void Channel::addClient(Client &client)
+void Channel::addClient(Client &client, std::string password)
 {
-    this->_clients.push_back(client);
+    if (password == _password)
+        this->_clients.push_back(client);
+    else
+    {
+        std::cout << "Error : bad password\n";
+        send()
+        return ;
+    }
 }
 
 /**
@@ -162,4 +171,20 @@ void Channel::sendMessage(const std::string &message, Client &sender)
             send(it->getSocketFd(), message.c_str(), message.length(), 0);
         }
     }
+}
+
+/* -- Password get/set ------------------------------------------------------------*/
+
+void            Channel::setPassword(const std::string &password) {
+    _password = password;
+}
+
+bool            Channel::goodPassword(const std::string &password) {
+    if (password == _password)
+        return true;
+    return false;
+}
+
+std::string     Channel::getPassword() const {
+    return (_password);
 }
