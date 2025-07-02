@@ -164,3 +164,13 @@ void Channel::sendMessage(const std::string &message, const Client &sender)
         }
     }
 }
+
+void Channel::setTopicMode(bool mode)
+{
+    this->_topicMode = mode;
+}
+
+bool Channel::getTopicMode() const
+{
+    return this->_topicMode;
+}

@@ -11,6 +11,7 @@ class Channel
         std::vector<Client> _clients;
         std::string _topic;
         std::vector<int> _operators;
+        bool _topicMode;
     public:
         Channel(const std::string &name);
         void                addClient(const Client &client);
@@ -24,6 +25,8 @@ class Channel
         void                removeOperator(const Client &client);
         std::vector<int>    getOperators() const;
         void                sendMessage(const std::string &message, const Client &sender);
+        void                setTopicMode(bool mode);
+        bool                getTopicMode() const;
 };
 
 #endif
