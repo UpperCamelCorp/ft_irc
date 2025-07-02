@@ -1,8 +1,9 @@
-#include "../inc/Client.hpp"
-#include "../inc/Server.hpp"
-#include "../inc/Channel.hpp"
+#include "Irc.hpp"
+#include "Client.hpp"
+#include "Server.hpp"
+#include "Channel.hpp"
 
-void Client::topicCommand(std::string command)
+void Client::topicCommand(const std::string& command)
 {
     std::string params = command.substr(command.find(' ') + 1);
 

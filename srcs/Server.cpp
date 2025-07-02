@@ -1,4 +1,5 @@
-#include "inc/Server.hpp"
+#include "Server.hpp"
+#include "Irc.hpp"
 
 Server::Server(int port) : _port(port)
 {
@@ -176,3 +177,21 @@ Channel* Server::getChannelByName(const std::string &name)
         return &(it->second);
     return NULL;
 }
+
+bool Server::isNicknameAvailable(const std::string &nickname) const
+{
+    for (std::map<int, Client>::const_iterator it = this->_clients.begin(); it != this->_clients.end(); ++it)
+    {
+        if (it->second.getNick() == nickname)
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+bool Server::isNameDuplicate(const std::string &name) const
+{
+    return this->_channels.find(name) != this->_channels.end();
+}
+

@@ -1,22 +1,9 @@
 #ifndef SERVER_HPP
 # define SERVER_HPP
 
+#include "Irc.hpp"
 #include "Client.hpp"
 #include "Channel.hpp"
-
-# include <iostream>
-# include <string>
-# include <cstring>
-# include <cstdlib>
-# include <vector>
-#include <map>
-#include <sys/socket.h>
-#include <sys/types.h>
-#include <netinet/in.h>
-#include <poll.h>
-#include <signal.h>
-#include <unistd.h>
-# include <fcntl.h>
 
 extern bool isRunning;
 
@@ -35,10 +22,12 @@ class Server
     public:
         Server(int port);
         ~Server();
-        void                start();
+        void                            start();
         void handleSignal(int signal);
 		std::map<std::string, Channel>& getChannels();
         Channel* getChannelByName(const std::string &name);
+        bool                isNicknameAvailable(const std::string &nickname) const;
+        bool                isNameDuplicate(const std::string &name) const;
 };
 
 #endif

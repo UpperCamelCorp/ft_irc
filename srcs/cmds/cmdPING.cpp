@@ -1,15 +1,11 @@
-#include "../inc/Client.hpp"
+#include "Irc.hpp"
+#include "Client.hpp"
 
-void Client::pingCommand(std::string command)
+void Client::pingCommand(const std::string& command)
 {
 	std::string token = command.substr(command.find(' ') + 1);
 
-	if (!token.empty() && token[token.length() - 1] == '\n') {
-		token.erase(token.length() - 1, 1);
-		if (!token.empty() && token[token.length() - 1] == '\r') {
-			token.erase(token.length() - 1, 1);
-		}
-	}
+	token = trim_cmd(token);
 	if (token.empty()) {
 		std::string response = ":localhost 461 " + (this->_nickname.empty() ? "*" : this->_nickname) + " PING :Not enough parameters\r\n";
 		send(this->_socket_fd, response.c_str(), response.length(), 0);

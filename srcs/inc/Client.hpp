@@ -1,22 +1,7 @@
 #ifndef CLIENT_HPP
 # define CLIENT_HPP
 
-# include <cstdlib>
-# include <cstring>
-# include <fcntl.h>
-# include <iostream>
-# include <map>
-# include <netinet/in.h>
-# include <poll.h>
-# include <signal.h>
-# include <sstream>
-# include <sstream>
-# include <string>
-# include <string>
-# include <sys/socket.h>
-# include <sys/types.h>
-# include <unistd.h>
-# include <vector>
+#include "Irc.hpp"
 
 class		Server;
 
@@ -40,14 +25,16 @@ class Client
 		std::string _nickname;
 		t_authStep  _authStep;
 		std::string _recvCommand;
-		void		ircCommand(std::string command);
-		void		nickCommand(std::string command);
-		void		userCommand(std::string command);
-		void		pingCommand(std::string command);
-		void		quitCommand(std::string command);
-		void		topicCommand(std::string command);
-		void		partCommand(std::string command);
-		void		unavailableCommand(std::string command);
+		void		ircCommand(const std::string& command);
+		void		nickCommand(const std::string& command);
+		void		userCommand(const std::string& command);
+		void		pingCommand(const std::string& command);
+		void		quitCommand(const std::string& command);
+		void		topicCommand(const std::string& command);
+		void		partCommand(const std::string& command);
+		void		joinCommand(const std::string& command);
+		void		modeCommand(const std::string& command);
+		void		unavailableCommand(const std::string& command);
 		void		authClient();
 	public:
 		Client();
@@ -55,7 +42,7 @@ class Client
 		void        setSocketFd(int fd);
 		int         getSocketFd() const;
 		void        handleCommand(std::string command);
-  	std::string getNick();
+  	std::string getNick() const;
 };
 
 #endif
