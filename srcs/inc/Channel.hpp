@@ -22,9 +22,9 @@ class Channel
         Channel(const std::string &name, const std::string &password);
         bool                addClient(Client &client, std::string password);
         void                addOperator(Client &client);
-        void                removeClient(Client &client);
-        void                removeOperator(Client &client);
-        void                sendMessage(const std::string &message, Client &sender);
+        void                removeClient(const Client &client);
+        void                removeOperator(const Client &client);
+        void                sendMessage(const std::string &message, const Client &sender);
         void                setTopic(const std::string &topic);
         void                setPassword(const std::string &password);
         bool                goodPassword(const std::string &password);
@@ -33,7 +33,7 @@ class Channel
         std::vector<Client> getClients() const;
         std::string         getName() const;
         std::vector<int>    getOperators() const;
-        bool                isOperator(Client &client) const;
+        bool                isOperator(const Client &client) const;
         std::string         getPassword() const;
 };
 

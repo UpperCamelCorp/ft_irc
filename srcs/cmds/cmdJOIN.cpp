@@ -25,30 +25,13 @@ static void	ErrInvalid(int error_n, std::string err_arg, int socket_fd)
 	send(socket_fd, response.c_str(), response.length(), 0);
 }
 
-static std::vector<std::string>	split_cmd(std::string str, char sep)
-
-{
-	std::istringstream cmdstr(str);
-	std::vector<std::string> arglist;
-	std::string segment;
-	while (std::getline(cmdstr, segment, sep))
-	{
-		while (!segment.empty() && (segment[segment.size() - 1] == '\n'
-				|| segment[segment.size() - 1] == '\r'))
-			segment.resize(segment.size() - 1);
-		if (!segment.empty())
-			arglist.push_back(segment);
-	}
-	return (arglist);
-}
-
 bool	valid_channel_name(std::string str){
 	if (str[0] != '#' || str.length() > 50)
 		return false;
 	return true;
 }
 
-void Client::joinCommand(std::string command)
+void Client::joinCommand(const std::string& command)
 {
 	std::vector<std::string> arglist;
 	arglist = split_cmd(command, ' ');
