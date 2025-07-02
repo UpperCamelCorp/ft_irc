@@ -38,6 +38,7 @@ class Server
         void                start();
         void handleSignal(int signal);
 		std::map<std::string, Channel>& getChannels();
+        Channel* getChannelByName(const std::string &name);
 };
 
 #endif
