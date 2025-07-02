@@ -1,4 +1,5 @@
-#include "../inc/Client.hpp"
+#include "Irc.hpp"
+#include "Client.hpp"
 
 void Client::joinCommand(const std::string& command)
 {

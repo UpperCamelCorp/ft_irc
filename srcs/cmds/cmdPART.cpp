@@ -1,6 +1,7 @@
-#include "../inc/Client.hpp"
-#include "../inc/Server.hpp"
-#include "../inc/Channel.hpp"
+#include "Irc.hpp"
+#include "Client.hpp"
+#include "Channel.hpp"
+#include "Server.hpp"
 
 void Client::partCommand(const std::string& command)
 {

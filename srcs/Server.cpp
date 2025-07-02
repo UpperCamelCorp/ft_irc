@@ -1,4 +1,5 @@
-#include "inc/Server.hpp"
+#include "Server.hpp"
+#include "Irc.hpp"
 
 Server::Server(int port) : _port(port)
 {
