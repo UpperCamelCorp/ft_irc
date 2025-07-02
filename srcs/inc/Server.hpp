@@ -23,11 +23,11 @@ class Server
         Server(int port);
         ~Server();
         void                            start();
-        void handleSignal(int signal);
+        void                            handleSignal(int signal);
 		std::map<std::string, Channel>& getChannels();
-        Channel* getChannelByName(const std::string &name);
-        bool                isNicknameAvailable(const std::string &nickname) const;
-        bool                isNameDuplicate(const std::string &name) const;
+        Channel*                        getChannelByName(const std::string &name);
+        bool                            isNicknameAvailable(const std::string &nickname) const;
+        bool                            isNameDuplicate(const std::string &name) const;
 };
 
 #endif
