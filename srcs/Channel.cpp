@@ -1,10 +1,16 @@
 #include "Channel.hpp"
 #include "Irc.hpp"
 
-Channel::Channel(const std::string &name) : _name(name), _topic("")
+#include "Client.hpp"
+
+Channel::Channel(const std::string &name) : _name(name), _topic(""), _password("")
 {
 }
 
+Channel::Channel(const std::string &name, const std::string &password) : _name(name), _password(password) 
+{
+    std::cout << "Created a restricted channel called : " << name << std::endl;
+}
 /**
  * @brief Adds a client to the channel.
  *
@@ -13,9 +19,13 @@ Channel::Channel(const std::string &name) : _name(name), _topic("")
  *
  * @param client Reference to the Client object to be added.
  */
-void Channel::addClient(const Client &client)
+bool Channel::addClient(Client &client, std::string password)
 {
-    this->_clients.push_back(client);
+    if (_password == "" || password == _password)
+        this->_clients.push_back(client);
+    else
+        return false;
+    return true;
 }
 
 /**
@@ -89,7 +99,7 @@ std::string Channel::getTopic() const
  *
  * @param client Reference to the Client object to be added as an operator.
  */
-void Channel::addOperator(const Client &client)
+void Channel::addOperator(Client &client)
 {
     if (!isOperator(client))
         this->_operators.push_back(client.getSocketFd());
@@ -163,4 +173,20 @@ void Channel::sendMessage(const std::string &message, const Client &sender)
             send(it->getSocketFd(), message.c_str(), message.length(), 0);
         }
     }
+}
+
+/* -- Password get/set ------------------------------------------------------------*/
+
+void            Channel::setPassword(const std::string &password) {
+    _password = password;
+}
+
+bool            Channel::goodPassword(const std::string &password) {
+    if (password == _password)
+        return true;
+    return false;
+}
+
+std::string     Channel::getPassword() const {
+    return (_password);
 }
