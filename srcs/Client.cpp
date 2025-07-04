@@ -118,7 +118,7 @@ void Client::ircCommand(const std::string& command)
         &Client::quitCommand,
         &Client::unavailableCommand, // LIST
         &Client::topicCommand,
-        &Client::unavailableCommand  // MODE
+        &Client::modeCommand  // MODE
     };
     std::string commandType = command.substr(0, command.find(' '));
     for (size_t i = 0; i < 11; ++i)
