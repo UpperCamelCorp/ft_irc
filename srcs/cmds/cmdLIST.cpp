@@ -21,7 +21,7 @@ static void	RPL(int reply, const std::string& err_arg, int socket_fd)
 	send(socket_fd, response.c_str(), response.length(), 0);
 }
 
-bool	found_client(std::vector<Client> list, Client actual){
+bool	found_client(const std::vector<Client>& list, const Client& actual){
 	for (size_t i = 0; i < list.size(); i++)
 	{
 		if (list[i].getNick() == actual.getNick())
