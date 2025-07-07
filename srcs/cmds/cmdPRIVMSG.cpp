@@ -7,11 +7,12 @@ static void	sendError(std::string macro, int socket_fd)
 	send(socket_fd, macro.c_str(), macro.length(), 0);
 }
 
-bool	found_client(const std::vector<Client>& list, const Client& actual){
-	for (size_t i = 0; i < list.size(); i++)
+static bool	client_exist(const std::map<int, Client>& list, const std::string target){
+	std::map<int, Client>::const_iterator it;
+	for (it = list.begin(); it != list.end(); ++it)
 	{
-		if (list[i].getNick() == actual.getNick())
-			return true;
+		if (it->second.getNick() == target)
+		    return true;
 	}
 	return false;
 }
@@ -52,6 +53,8 @@ void	Client::privmsgCommand(const std::string& command)
 	else
 	{
 		std::map<int, Client> serverClients = this->_server->getClients();
+		if (client_exist(serverClients, receiver))
+			std::cout << "Envoie lui le msg\n";
 		// for(std::map<std::string, Client>::iterator it ; )
 		// ERR_NOSUCHNICK("localhost", receiver.c_str());
 		/* send it to a guy */
