@@ -190,3 +190,6 @@ bool Server::isNameDuplicate(const std::string &name) const
     return this->_channels.find(name) != this->_channels.end();
 }
 
+std::map<int, Client>   Server::getClients() const{
+    return _clients;
+}
