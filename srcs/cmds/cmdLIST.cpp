@@ -22,7 +22,7 @@ static void	RPL(int reply, const std::string& err_arg, int socket_fd)
 }
 
 bool	found_client(std::vector<Client> list, Client actual){
-	for (size_t i = 0; list.size(); i++)
+	for (size_t i = 0; i < list.size(); i++)
 	{
 		if (list[i].getNick() == actual.getNick())
 			return true;
