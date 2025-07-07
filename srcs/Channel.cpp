@@ -21,10 +21,14 @@ Channel::Channel(const std::string &name, const std::string &password) : _name(n
  */
 bool Channel::addClient(Client &client, std::string password)
 {
-    if (_password == "" || password == _password)
-        this->_clients.push_back(client);
-    else
+    if (_password != "" && password != _password)
         return false;
+    for (std::vector<Client>::iterator it = _clients.begin(); it != _clients.end(); ++it)
+    {
+        if (it->getSocketFd() == client.getSocketFd())
+            return false;
+    }
+    _clients.push_back(client);
     return true;
 }
 

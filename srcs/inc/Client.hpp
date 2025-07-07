@@ -34,6 +34,7 @@ class Client
 		void		topicCommand(const std::string& command);
 		void		partCommand(const std::string& command);
 		void		joinCommand(const std::string& command);
+		void		listCommand(const std::string& command);
 		void		unavailableCommand(const std::string& command);
 		void		authClient();
 
@@ -44,7 +45,7 @@ class Client
 
 		int         getSocketFd() const;
 		void        handleCommand(std::string command);
-  	std::string getNick() const;
+  		std::string getNick() const;
 };
 
 #endif

@@ -118,7 +118,7 @@ void Client::ircCommand(const std::string& command)
         &Client::pingCommand,
         &Client::unavailableCommand, // PONG
         &Client::quitCommand,
-        &Client::unavailableCommand, // LIST
+        &Client::listCommand, // LIST
         &Client::topicCommand,
         &Client::unavailableCommand  // MODE
     };
