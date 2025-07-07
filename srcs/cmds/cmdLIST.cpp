@@ -30,14 +30,14 @@ bool	found_client(const std::vector<Client>& list, const Client& actual){
 	return false;
 }
 
-static void more_than(int nbclient, Client clientt, std::map<std::string, Channel> servChan){
-	RPL(321, clientt.getNick(), clientt.getSocketFd());
-	for (std::map<std::string, Channel>::iterator it = servChan.begin()
-		; it != servChan.end(); ++it) {
+static void more_than(int nbclient, const Client& client, const std::map<std::string, Channel>& channels){
+	RPL(321, client.getNick(), client.getSocketFd());
+	for (std::map<std::string, Channel>::const_iterator it = channels.begin()
+		; it != channels.end(); ++it) {
 		if (it->second.getClients().size() > static_cast<std::size_t>(nbclient))
-			build_msg(clientt.getNick(), clientt.getSocketFd(), it->second);
+			build_msg(client.getNick(), client.getSocketFd(), it->second);
 	}
-	RPL(323, clientt.getNick(), clientt.getSocketFd());
+	RPL(323, client.getNick(), client.getSocketFd());
 }
 
 void	Client::listCommand(const std::string& command) {
