@@ -1,6 +1,6 @@
 #include "Server.hpp"
 
-static void	build_msg(std::string nick, int socket_fd, Channel actual)
+static void	build_msg(const std::string& nick, int socket_fd, const Channel& actual)
 {
 	std::string response;
 	std::ostringstream connected;
