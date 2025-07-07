@@ -9,7 +9,7 @@ static void	build_msg(const std::string& nick, int socket_fd, const Channel& act
 	response = ":localhost 322 " + nick + " " + actual.getName() + " " + connected.str() + " :" + actual.getTopic() + "\n";
 	send(socket_fd, response.c_str(), response.length(), 0);
 }
-static void	RPL(int reply, std::string err_arg, int socket_fd)
+static void	RPL(int reply, const std::string& err_arg, int socket_fd)
 {
 	std::string response;
 	if (reply == 321)
