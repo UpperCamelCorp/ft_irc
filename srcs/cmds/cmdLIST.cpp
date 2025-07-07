@@ -53,14 +53,13 @@ void	Client::listCommand(const std::string& command) {
 
 			if (found_client(it->second.getClients(), *this))
 				build_msg(this->getNick(), this->_socket_fd, it->second);
-			else if (it->second.getPassword() == "") // how to define private ?
+			else if (it->second.getPassword() == "")
 				build_msg(this->getNick(), this->_socket_fd, it->second);				
 			}
 		RPL(323, this->getNick(), this->_socket_fd);
 	}
 	else
 	{
-		// std::cout << "NON GEREE\n";
 		std::vector<std::string> args;
 		args = split_cmd(cmd_segment[1], ',');
 		if (args.size() < 2)
