@@ -7,14 +7,14 @@ static void	sendError(std::string macro, int socket_fd)
 	send(socket_fd, macro.c_str(), macro.length(), 0);
 }
 
-static bool	client_exist(const std::map<int, Client>& list, const std::string target){
+static int	client_exist(const std::map<int, Client>& list, const std::string target){
 	std::map<int, Client>::const_iterator it;
 	for (it = list.begin(); it != list.end(); ++it)
 	{
 		if (it->second.getNick() == target)
-		    return true;
+		    return it->second.getSocketFd();
 	}
-	return false;
+	return -1;
 }
 
 void	Client::privmsgCommand(const std::string& command)
@@ -47,17 +47,18 @@ void	Client::privmsgCommand(const std::string& command)
 		}
 		else
 			return sendError(ERR_NOSUCHCHANNEL(this->getNick(), receiver.c_str()), this->getSocketFd());
-		
-		/* send to a channel */
 	}
 	else
 	{
 		std::map<int, Client> serverClients = this->_server->getClients();
-		if (client_exist(serverClients, receiver))
-			std::cout << "Envoie lui le msg\n";
-		// for(std::map<std::string, Client>::iterator it ; )
-		// ERR_NOSUCHNICK("localhost", receiver.c_str());
-		/* send it to a guy */
+		int target_socket = client_exist(serverClients, receiver);
+		if (target_socket != -1)
+		{
+			std::string builded = RPL_PRIVMSG(this->getNick(), this->_username, receiver, text_to_send);
+			send(target_socket, builded.c_str(), builded.length(), 0);
+		}
+		else
+			sendError(ERR_NOSUCHNICK(this->getNick(), receiver), this->_socket_fd);
+		return ;
 	}
-
 }
