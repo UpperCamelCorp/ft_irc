@@ -61,7 +61,7 @@ void    addChannelMode(Channel &channel, Client &client, const std::string &mode
                 }
             }
             std::cerr << "Limit mode requires a numeric value." << std::endl;
-            std::string error = ":localhost 461 " + channel.getName() + " MODE :Not enough parametersz\r\n";
+            std::string error = ":localhost 461 " + channel.getName() + " MODE :Not enough parameters\r\n";
             send(client.getSocketFd(), error.c_str(), error.length(), 0);
             return; 
         }
@@ -115,6 +115,7 @@ void Client::modeCommand(const std::string &command)
     std::vector<std::string> args;
     std::string token;
     std::string error;
+    std::cout << "MODE command received: " << command << std::endl;
     while (std::getline(iss, token, ' '))
     {
         if (!token.empty())
@@ -134,7 +135,7 @@ void Client::modeCommand(const std::string &command)
         send(this->_socket_fd, error.c_str(), error.length(), 0);
         return;
     }
-    std::cout << args[2] << std::endl;
+    std::cout << args[2] << " AND " << args[3] << std::endl;
     Channel *channel = this->_server->getChannelByName(args[1]);
     if (!channel)
     {
@@ -168,7 +169,7 @@ void Client::modeCommand(const std::string &command)
             send(this->_socket_fd, error.c_str(), error.length(), 0);
             return;
         }
-        addChannelMode(*channel, *this, mode.substr(0, 1), mode.substr(2));
+        addChannelMode(*channel, *this, mode.substr(0, 1), args.size() > 3 ? args[3] : "");
     }
     else if (mode[0] == '-')
     {
@@ -187,7 +188,7 @@ void Client::modeCommand(const std::string &command)
             send(this->_socket_fd, error.c_str(), error.length(), 0);
             return;
         }
-        removeChannelMode(*channel, *this, mode.substr(0, 1), mode.substr(2));
+        removeChannelMode(*channel, *this, mode.substr(0, 1), args.size() > 3 ? args[3] : "");
     }
     else
     {
