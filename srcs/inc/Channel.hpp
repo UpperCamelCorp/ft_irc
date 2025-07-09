@@ -4,6 +4,11 @@
 #include "Irc.hpp"
 #include "Client.hpp"
 
+#include <iostream>
+#include <string>
+#include <vector>
+
+class Client;
 class Channel
 {
     private:
@@ -17,16 +22,11 @@ class Channel
         int _maxClients;
     public:
         Channel(const std::string &name);
-        void                addClient(const Client &client);
+        Channel(const std::string &name, const std::string &password);
+        bool                addClient(Client &client, std::string password);
+        void                addOperator(Client &client);
         void                removeClient(const Client &client);
-        void                setTopic(const std::string &topic);
-        std::string         getName() const;
-        std::vector<Client> getClients() const;
-        std::string         getTopic() const;
-        void                addOperator(const Client &client);
-        bool                isOperator(const Client &client) const;
         void                removeOperator(const Client &client);
-        std::vector<int>    getOperators() const;
         void                sendMessage(const std::string &message, const Client &sender);
         void                setTopicMode(bool mode);
         bool                getTopicMode() const;
@@ -36,6 +36,16 @@ class Channel
         std::string         getChannelKey() const;
         void                setMaxClients(int maxClients);
         int                 getMaxClients() const;
+        void                setTopic(const std::string &topic);
+        void                setPassword(const std::string &password);
+        bool                goodPassword(const std::string &password);
+
+        std::string         getTopic() const;
+        std::vector<Client> getClients() const;
+        std::string         getName() const;
+        std::vector<int>    getOperators() const;
+        bool                isOperator(const Client &client) const;
+        std::string         getPassword() const;
 };
 
 #endif

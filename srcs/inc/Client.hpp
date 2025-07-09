@@ -25,6 +25,7 @@ class Client
 		std::string _nickname;
 		t_authStep  _authStep;
 		std::string _recvCommand;
+
 		void		ircCommand(const std::string& command);
 		void		nickCommand(const std::string& command);
 		void		userCommand(const std::string& command);
@@ -34,15 +35,18 @@ class Client
 		void		partCommand(const std::string& command);
 		void		joinCommand(const std::string& command);
 		void		modeCommand(const std::string& command);
+		void		listCommand(const std::string& command);
 		void		unavailableCommand(const std::string& command);
 		void		authClient();
+
 	public:
 		Client();
 		void        setServer(Server &server);
 		void        setSocketFd(int fd);
+
 		int         getSocketFd() const;
 		void        handleCommand(std::string command);
-  	std::string getNick() const;
+  		std::string getNick() const;
 };
 
 #endif

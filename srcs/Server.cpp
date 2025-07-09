@@ -1,6 +1,9 @@
 #include "Server.hpp"
 #include "Irc.hpp"
 
+#include "Client.hpp"
+#include "Channel.hpp"
+
 Server::Server(int port) : _port(port)
 {
     struct pollfd serverFd;

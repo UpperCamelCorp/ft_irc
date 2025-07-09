@@ -7,6 +7,9 @@
 
 extern bool isRunning;
 
+class Client;
+class Channel;
+
 class Server
 {
     private:
@@ -16,9 +19,11 @@ class Server
         std::map<int, Client>      _clients;
         std::map<std::string, Channel> _channels;
         std::vector<struct pollfd> _poll_fds;
+
         void                       closeClient(int client_fd);
         void                       acceptClient();
         void                       handleClient(Client &client);
+
     public:
         Server(int port);
         ~Server();

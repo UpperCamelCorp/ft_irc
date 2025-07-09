@@ -1,10 +1,16 @@
 #include "Channel.hpp"
 #include "Irc.hpp"
 
-Channel::Channel(const std::string &name) : _name(name), _topic("")
+#include "Client.hpp"
+
+Channel::Channel(const std::string &name) : _name(name), _topic(""), _key("")
 {
 }
 
+Channel::Channel(const std::string &name, const std::string &password) : _name(name), _key(password) 
+{
+    std::cout << "Created a restricted channel called : " << name << std::endl;
+}
 /**
  * @brief Adds a client to the channel.
  *
@@ -13,9 +19,17 @@ Channel::Channel(const std::string &name) : _name(name), _topic("")
  *
  * @param client Reference to the Client object to be added.
  */
-void Channel::addClient(const Client &client)
+bool Channel::addClient(Client &client, std::string password)
 {
-    this->_clients.push_back(client);
+    if (_key != "" && password != _key)
+        return false;
+    for (std::vector<Client>::iterator it = _clients.begin(); it != _clients.end(); ++it)
+    {
+        if (it->getSocketFd() == client.getSocketFd())
+            return false;
+    }
+    _clients.push_back(client);
+    return true;
 }
 
 /**
@@ -89,7 +103,7 @@ std::string Channel::getTopic() const
  *
  * @param client Reference to the Client object to be added as an operator.
  */
-void Channel::addOperator(const Client &client)
+void Channel::addOperator(Client &client)
 {
     if (!isOperator(client))
         this->_operators.push_back(client.getSocketFd());
@@ -253,4 +267,8 @@ void Channel::setMaxClients(int maxClients)
 int Channel::getMaxClients() const  
 {
     return this->_maxClients;
+}
+
+std::string     Channel::getPassword() const {
+    return (_key);
 }

@@ -6,15 +6,15 @@ void    addChannelMode(Channel &channel, Client &client, const std::string &mode
 {
     switch (mode[0])
     {
-        case 't': { // Topic mode
+        case 't': {
             channel.setTopicMode(true);
             return;
         }
-        case 'i': { // Invite-only mode
+        case 'i': {
             channel.setInviteOnly(true);
             return;
         }
-        case 'k':{ // Key mode
+        case 'k':{
             if (value.empty())
             {
                 std::cerr << "Key mode requires a key value." << std::endl;
@@ -25,7 +25,7 @@ void    addChannelMode(Channel &channel, Client &client, const std::string &mode
             channel.setChannelKey(value);
             return;
         }
-        case 'o': { // Operator mode
+        case 'o': {
             if (value.empty())
             {                
                 std::cerr << "Operator mode requires a nickname." << std::endl;
@@ -51,7 +51,7 @@ void    addChannelMode(Channel &channel, Client &client, const std::string &mode
             return;
         }
         case 'l': {
-            if (!value.empty()) // Limit mode
+            if (!value.empty())
             {
                 long limit = atol(value.c_str());
                 if (limit > 0 && limit <= 1000)
@@ -72,19 +72,19 @@ void removeChannelMode(Channel &channel, Client &client, const std::string &mode
 {
     switch (mode[0])
     {
-        case 't': { // Topic mode
+        case 't': {
             channel.setTopicMode(false);
             return;
         }
-        case 'i': { // Invite-only mode
+        case 'i': {
             channel.setInviteOnly(false);
             return;
         }
-        case 'k': { // Key mode
+        case 'k': {
             channel.setChannelKey("");
             return;
         }
-        case 'o': { // Operator mode
+        case 'o': {
             if (value.empty())
             {
                 std::cerr << "Operator mode requires a nickname." << std::endl;
@@ -102,7 +102,7 @@ void removeChannelMode(Channel &channel, Client &client, const std::string &mode
             send(client.getSocketFd(), error.c_str(), error.length(), 0);
             return;
         }
-        case 'l': { // Limit mode
+        case 'l': {
             channel.setMaxClients(0);
             return;
         }
