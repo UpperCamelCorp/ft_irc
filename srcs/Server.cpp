@@ -4,7 +4,7 @@
 #include "Client.hpp"
 #include "Channel.hpp"
 
-Server::Server(int port) : _port(port)
+Server::Server(int port) : _port(port), _password("")
 {
     struct pollfd serverFd;
     int optValue = 1;
@@ -168,6 +168,16 @@ void Server::start()
     this->_poll_fds.clear();
 }
 
+void Server::setPassword(const std::string &password)
+{
+    this->_password = password;
+}
+
+const std::string& Server::getPassword() const
+{
+    return this->_password;
+}
+
 std::map<std::string, Channel>& Server::getChannels()
 {
 	return this->_channels;
@@ -198,3 +208,6 @@ bool Server::isNameDuplicate(const std::string &name) const
     return this->_channels.find(name) != this->_channels.end();
 }
 
+std::map<int, Client>   Server::getClients() const{
+    return _clients;
+}
