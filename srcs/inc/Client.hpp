@@ -38,6 +38,7 @@ class Client
 		void		privmsgCommand(const std::string& command);
 		void		listCommand(const std::string& command);
 		void		unavailableCommand(const std::string& command);
+		void		kickCommand(const std::string& command);
 		void		authClient();
 
 	public:
