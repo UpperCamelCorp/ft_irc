@@ -34,7 +34,6 @@ class Server
         void 							handleSignal(int signal);
 		std::map<std::string, Channel>& getChannels();
         bool                			isNicknameAvailable(const std::string &nickname) const;
-        bool							isNameDuplicate(const std::string &name) const;
         std::map<int, Client>			getClients(void) const;
         Channel*                        getChannelByName(const std::string &name);
         bool                            isNameDuplicate(const std::string &name) const;
