@@ -76,6 +76,7 @@ void Client::joinCommand(const std::string& command)
 			serverChannels.insert(std::make_pair(channels[i], Channel(channels[i])));
 			it = serverChannels.find(channels[i]);
 			it->second.addOperator(*this);
+			it->second.addClient(*this, "");
 			std::cout << "created and joined " << channels[i] << std::endl;
 		}
 
