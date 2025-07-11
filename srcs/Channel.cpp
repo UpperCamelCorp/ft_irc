@@ -1,9 +1,16 @@
-#include "inc/Channel.hpp"
+#include "Channel.hpp"
+#include "Irc.hpp"
 
-Channel::Channel(const std::string &name) : _name(name), _topic("")
+#include "Client.hpp"
+
+Channel::Channel(const std::string &name) : _name(name), _topic(""), _password("")
 {
 }
 
+Channel::Channel(const std::string &name, const std::string &password) : _name(name), _password(password) 
+{
+    std::cout << "Created a restricted channel called : " << name << std::endl;
+}
 /**
  * @brief Adds a client to the channel.
  *
@@ -12,9 +19,17 @@ Channel::Channel(const std::string &name) : _name(name), _topic("")
  *
  * @param client Reference to the Client object to be added.
  */
-void Channel::addClient(Client &client)
+bool Channel::addClient(Client &client, std::string password)
 {
-    this->_clients.push_back(client);
+    if (_password != "" && password != _password)
+        return false;
+    for (std::vector<Client>::iterator it = _clients.begin(); it != _clients.end(); ++it)
+    {
+        if (it->getSocketFd() == client.getSocketFd())
+            return false;
+    }
+    _clients.push_back(client);
+    return true;
 }
 
 /**
@@ -26,7 +41,7 @@ void Channel::addClient(Client &client)
  * @param client Reference to the client to b *_server; // pointer vers le l'intsance de Server (pour les channels)
         int         _socket_fd;e removed from the channel.
  */
-void Channel::removeClient(Client &client)
+void Channel::removeClient(const Client &client)
 {
     for (std::vector<Client>::iterator it = this->_clients.begin(); it != this->_clients.end(); ++it)
     {
@@ -103,7 +118,7 @@ void Channel::addOperator(Client &client)
  *
  * @param client Reference to the Client object to be removed as an operator.
  */
-void Channel::removeOperator(Client &client)
+void Channel::removeOperator(const Client &client)
 {
     for (std::vector<int>::iterator it = this->_operators.begin(); it != this->_operators.end(); ++it)
     {
@@ -134,7 +149,7 @@ std::vector<int> Channel::getOperators() const
  * @param client Reference to the Client object to check.
  * @return true if the client is an operator in the channel, false otherwise.
  */
-bool Channel::isOperator(Client &client) const
+bool Channel::isOperator(const Client &client) const
 {
     for (std::vector<int>::const_iterator it = this->_operators.begin(); it != this->_operators.end(); ++it)
     {
@@ -153,7 +168,7 @@ bool Channel::isOperator(Client &client) const
  * @param message The message to be sent to other clients. This message must already be formatted according to the IRC RFC specifications.
  * @param sender Reference to the Client object who is sending the message.
  */
-void Channel::sendMessage(const std::string &message, Client &sender)
+void Channel::sendMessage(const std::string &message, const Client &sender)
 {
     for (std::vector<Client>::iterator it = this->_clients.begin(); it != this->_clients.end(); ++it)
     {
@@ -162,4 +177,20 @@ void Channel::sendMessage(const std::string &message, Client &sender)
             send(it->getSocketFd(), message.c_str(), message.length(), 0);
         }
     }
+}
+
+/* -- Password get/set ------------------------------------------------------------*/
+
+void            Channel::setPassword(const std::string &password) {
+    _password = password;
+}
+
+bool            Channel::goodPassword(const std::string &password) {
+    if (password == _password)
+        return true;
+    return false;
+}
+
+std::string     Channel::getPassword() const {
+    return (_password);
 }

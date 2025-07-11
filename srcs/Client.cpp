@@ -1,5 +1,6 @@
-#include "inc/Client.hpp"
-#include "inc/Server.hpp"
+#include "Client.hpp"
+#include "Irc.hpp"
+#include "Server.hpp"
 
 Client::Client() : _server(NULL), _username(""), _hostname(""), _servername(""), _realname(""), _nickname(""), _recvCommand("")
 {
@@ -93,11 +94,11 @@ void Client::authClient()
 	}
 }
 
-void Client::unavailableCommand(std::string command)
+void Client::unavailableCommand(const std::string& command)
 {
 	std::cout << "Error: Command '" << command << "' is not available." << std::endl;
 }
-void Client::ircCommand(std::string command)
+void Client::ircCommand(const std::string& command)
 {
     std::string enumtypes[] = {
         "NICK",
@@ -112,16 +113,16 @@ void Client::ircCommand(std::string command)
         "TOPIC",
         "MODE"
     };
-    void (Client::*commandFunctions[])(std::string) = {
+    void (Client::*commandFunctions[])(const std::string&) = {
         &Client::nickCommand,
         &Client::userCommand,
-        &Client::unavailableCommand, // JOIN
+        &Client::joinCommand, // JOIN
         &Client::partCommand,
         &Client::unavailableCommand, // PRIVMSG
         &Client::pingCommand,
         &Client::unavailableCommand, // PONG
         &Client::quitCommand,
-        &Client::unavailableCommand, // LIST
+        &Client::listCommand, // LIST
         &Client::topicCommand,
         &Client::unavailableCommand  // MODE
     };

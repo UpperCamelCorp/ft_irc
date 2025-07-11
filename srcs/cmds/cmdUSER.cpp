@@ -1,6 +1,7 @@
-#include "../inc/Client.hpp"
+#include "Irc.hpp"
+#include "Client.hpp"
 
-void Client::userCommand(std::string command)
+void Client::userCommand(const std::string& command)
 {
 	std::string userInfo = command.substr(command.find(' ') + 1);
 
