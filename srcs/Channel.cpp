@@ -3,11 +3,11 @@
 
 #include "Client.hpp"
 
-Channel::Channel(const std::string &name) : _name(name), _topic(""), _password("")
+Channel::Channel(const std::string &name) : _name(name), _topic(""), _key("")
 {
 }
 
-Channel::Channel(const std::string &name, const std::string &password) : _name(name), _password(password) 
+Channel::Channel(const std::string &name, const std::string &password) : _name(name), _key(password) 
 {
     std::cout << "Created a restricted channel called : " << name << std::endl;
 }
@@ -21,7 +21,7 @@ Channel::Channel(const std::string &name, const std::string &password) : _name(n
  */
 bool Channel::addClient(Client &client, std::string password)
 {
-    if (_password != "" && password != _password)
+    if (_key != "" && password != _key)
         return false;
     for (std::vector<Client>::iterator it = _clients.begin(); it != _clients.end(); ++it)
     {
@@ -179,18 +179,96 @@ void Channel::sendMessage(const std::string &message, const Client &sender)
     }
 }
 
-/* -- Password get/set ------------------------------------------------------------*/
-
-void            Channel::setPassword(const std::string &password) {
-    _password = password;
+/**
+ * @brief Sets the topic mode for the channel.
+ *
+ * This function enables or disables the topic mode for the channel.
+ * When topic mode is enabled, only channel operators can change the channel topic.
+ *
+ * @param mode Boolean value indicating whether to enable (true) or disable (false) topic mode.
+ */
+void Channel::setTopicMode(bool mode)
+{
+    this->_topicMode = mode;
 }
 
-bool            Channel::goodPassword(const std::string &password) {
-    if (password == _password)
-        return true;
-    return false;
+/**
+ * @brief Checks if the channel's topic mode is enabled.
+ *
+ * @return true if the topic mode is enabled, false otherwise.
+ */
+bool Channel::getTopicMode() const
+{
+    return this->_topicMode;
+}
+
+/**
+ * @brief Sets the invite-only mode for the channel.
+ *
+ * This function enables or disables the invite-only mode for the channel.
+ * When invite-only mode is enabled, only invited users can join the channel.
+ *
+ * @param inviteOnly Boolean value indicating whether to enable (true) or disable (false) invite-only mode.
+ */
+void Channel::setInviteOnly(bool inviteOnly)
+{
+    this->_inviteOnly = inviteOnly;
+}
+
+/**
+ * @brief Checks if the channel is set to invite-only mode.
+ *
+ * @return true if the channel is invite-only, false otherwise.
+ */
+bool Channel::isInviteOnly() const
+{
+    return this->_inviteOnly;
+}
+
+/**
+ * @brief Sets the channel key (password) for the channel.
+ *
+ * This function sets a key that is required to join the channel when invite-only mode is enabled.
+ *
+ * @param key The key to set for the channel.
+ */
+void Channel::setChannelKey(const std::string &key)
+{
+    this->_key = key;
+}
+
+/**
+ * @brief Retrieves the channel key (password) for the channel.
+ *
+ * @return The key of the channel as a std::string.
+ */
+std::string Channel::getChannelKey() const
+{
+    return this->_key;
+}
+
+/**
+ * @brief Sets the maximum number of clients allowed in the channel.
+ *
+ * This function sets a limit on the number of clients that can join the channel.
+ *
+ * @param maxClients The maximum number of clients allowed in the channel.
+ */
+void Channel::setMaxClients(int maxClients)
+{
+    this->_maxClients = maxClients;
+}
+
+/**
+ * @brief Retrieves the maximum number of clients allowed in the channel.
+ *
+ * @return The maximum number of clients that can join the channel.
+ */
+int Channel::getMaxClients() const  
+{
+    return this->_maxClients;
 }
 
 std::string     Channel::getPassword() const {
-    return (_password);
+    return (_key);
 }

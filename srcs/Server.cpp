@@ -183,6 +183,14 @@ std::map<std::string, Channel>& Server::getChannels()
 	return this->_channels;
 }
 
+Channel* Server::getChannelByName(const std::string &name)
+{
+    std::map<std::string, Channel>::iterator it = this->_channels.find(name);
+    if (it != this->_channels.end())
+        return &(it->second);
+    return NULL;
+}
+
 bool Server::isNicknameAvailable(const std::string &nickname) const
 {
     for (std::map<int, Client>::const_iterator it = this->_clients.begin(); it != this->_clients.end(); ++it)

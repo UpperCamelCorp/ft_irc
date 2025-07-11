@@ -31,11 +31,12 @@ class Server
         void                            start();
         void                            setPassword(const std::string &password);
         const std::string&              getPassword() const;
-        void handleSignal(int signal);
-		    std::map<std::string, Channel>& getChannels();
-        bool                isNicknameAvailable(const std::string &nickname) const;
-        bool                isNameDuplicate(const std::string &name) const;
-        std::map<int, Client>       getClients(void) const;
+        void 							handleSignal(int signal);
+		std::map<std::string, Channel>& getChannels();
+        bool                			isNicknameAvailable(const std::string &nickname) const;
+        std::map<int, Client>			getClients(void) const;
+        Channel*                        getChannelByName(const std::string &name);
+        bool                            isNameDuplicate(const std::string &name) const;
 };
 
 #endif
