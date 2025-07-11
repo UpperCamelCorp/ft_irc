@@ -13,7 +13,7 @@ static void	ErrInvalid(int error_n, std::string err_arg, int socket_fd)
 	else if (error_n == 475)
 		response = ":localhost " + err_arg + " :Cannot join channel (+k)\n"; // bad key
 	else if (error_n == 474)
-		response = ":localhost " + err_arg + " :Cannot join channel (+b)\n"; 
+		response = ":localhost " + err_arg + " :Cannot join channel (+b)\n";
 	else if (error_n == 471)
 		response = ":localhost " + err_arg + " :Cannot join channel (+l)\n";
 	else if (error_n == 473)
@@ -47,9 +47,9 @@ void Client::joinCommand(const std::string& command)
 	std::map<std::string, Channel>& serverChannels = this->_server->getChannels();
 	std::map<std::string, Channel>::iterator it;
 
-	int i = 0;
-	int pass_i = 0;
-	int channel_size = channels.size();
+	size_t i = 0;
+	size_t pass_i = 0;
+	size_t channel_size = channels.size();
 	while (i < channel_size)
 	{
 		if (!valid_channel_name(channels[i]))
@@ -59,10 +59,16 @@ void Client::joinCommand(const std::string& command)
 			it = serverChannels.find(channels[i]);
 			if (it->second.getPassword() != "")
 			{
-				if (it->second.addClient(*this, passwords[pass_i]))
-					std::cout << this->getNick() << " joinned " << channels[i] << std::endl;
-				else
+				std::string provided_password = (pass_i < passwords.size()) ? passwords[pass_i] : "";
+				if (!it->second.addClient(*this, provided_password))
+				{
 					ErrInvalid(475, it->second.getName(), this->_socket_fd);
+					std::string partCmd = "PART " + it->second.getName() + "\r\n";
+					this->partCommand(partCmd);
+					i++;
+					pass_i++;
+					continue;
+				}
 				pass_i++;
 			}
 			else
@@ -77,5 +83,4 @@ void Client::joinCommand(const std::string& command)
 		}
 		i++;
 	}
-
 }
