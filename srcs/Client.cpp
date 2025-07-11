@@ -11,7 +11,7 @@ Client::Client() : _server(NULL), _username(""), _hostname(""), _servername(""),
 void Client::setServer(Server &server)
 {
     this->_server = &server;
-	if (this->_server->getPassword() != "")
+	if (!this->_server->getPassword().empty())
 		this->_authStep.isPasswordSet = false;
 	else
 		this->_authStep.isPasswordSet = true;
