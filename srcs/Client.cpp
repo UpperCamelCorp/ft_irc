@@ -1,6 +1,5 @@
 #include "Client.hpp"
 #include "Irc.hpp"
-
 #include "Server.hpp"
 
 Client::Client() : _server(NULL), _username(""), _hostname(""), _servername(""), _realname(""), _nickname(""), _recvCommand("")
@@ -13,6 +12,11 @@ Client::Client() : _server(NULL), _username(""), _hostname(""), _servername(""),
 void Client::setServer(Server &server)
 {
     this->_server = &server;
+	if (!this->_server->getPassword().empty())
+		this->_authStep.isPasswordSet = false;
+	else
+		this->_authStep.isPasswordSet = true;
+	std::cout << "ispasswordset: " << this->_authStep.isPasswordSet << std::endl;
 }
 
 void Client::setSocketFd(int fd)
@@ -71,7 +75,7 @@ void Client::handleCommand(std::string command)
 void Client::authClient()
 {
 	std::cout << "Authenticating client: " << this->getNick() << std::endl;
-	if (this->_authStep.isNickSet && this->_authStep.isUserSet && !this->_authStep.isRegistered)
+	if (this->_authStep.isNickSet && this->_authStep.isUserSet && this->_authStep.isPasswordSet && !this->_authStep.isRegistered)
 	{
 		std::string response = ":localhost 001 " + this->getNick() + " :Welcome to the IRC server, " + this->getNick() + "!\r\n";
 		send(this->_socket_fd, response.c_str(), response.length(), 0);
@@ -114,7 +118,7 @@ void Client::ircCommand(const std::string& command)
         &Client::userCommand,
         &Client::joinCommand, // JOIN
         &Client::partCommand,
-        &Client::unavailableCommand, // PRIVMSG
+        &Client::privmsgCommand, // PRIVMSG
         &Client::pingCommand,
         &Client::unavailableCommand, // PONG
         &Client::quitCommand,

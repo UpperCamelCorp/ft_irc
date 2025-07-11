@@ -34,6 +34,7 @@ class Client
 		void		topicCommand(const std::string& command);
 		void		partCommand(const std::string& command);
 		void		joinCommand(const std::string& command);
+		void		privmsgCommand(const std::string& command);
 		void		listCommand(const std::string& command);
 		void		unavailableCommand(const std::string& command);
 		void		authClient();
