@@ -4,7 +4,7 @@
 #include "Client.hpp"
 #include "Channel.hpp"
 
-Server::Server(int port) : _port(port)
+Server::Server(int port) : _port(port), _password("")
 {
     struct pollfd serverFd;
     int optValue = 1;
@@ -166,6 +166,16 @@ void Server::start()
     }
     this->_clients.clear();
     this->_poll_fds.clear();
+}
+
+void Server::setPassword(const std::string &password)
+{
+    this->_password = password;
+}
+
+const std::string& Server::getPassword() const
+{
+    return this->_password;
 }
 
 std::map<std::string, Channel>& Server::getChannels()
