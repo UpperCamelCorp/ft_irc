@@ -47,10 +47,8 @@ void Client::joinCommand(const std::string& command)
 	std::map<std::string, Channel>& serverChannels = this->_server->getChannels();
 	std::map<std::string, Channel>::iterator it;
 
-	size_t i = 0;
 	size_t pass_i = 0;
-	size_t channel_size = channels.size();
-	while (i < channel_size)
+	for (size_t i = 0; i < channels.size(); ++i)
 	{
 		if (!valid_channel_name(channels[i]))
 			ErrInvalid(476, channels[i], this->_socket_fd);
@@ -81,6 +79,32 @@ void Client::joinCommand(const std::string& command)
 			it->second.addOperator(*this);
 			std::cout << "created and joined " << channels[i] << std::endl;
 		}
-		i++;
+
+        std::string join_msg = ":" + this->getNick() + " JOIN :" + channels[i] + "\r\n";
+        send(this->_socket_fd, join_msg.c_str(), join_msg.length(), 0);
+
+        if (!it->second.getTopic().empty())
+        {
+            std::string topic_msg = ":localhost 332 " + this->getNick() + " " + channels[i] + " :" + it->second.getTopic() + "\r\n";
+            send(this->_socket_fd, topic_msg.c_str(), topic_msg.length(), 0);
+        }
+
+        std::vector<Client> channel_clients = it->second.getClients();
+        std::string names = "";
+        for (std::vector<Client>::iterator client_it = channel_clients.begin(); client_it != channel_clients.end(); ++client_it)
+        {
+            if (it->second.isOperator(*client_it))
+                names += "@";
+            names += client_it->getNick() + " ";
+        }
+        std::string names_msg = ":localhost 353 " + this->getNick() + " = " + channels[i] + " :" + names + "\r\n";
+        send(this->_socket_fd, names_msg.c_str(), names_msg.length(), 0);
+
+        std::string end_names_msg = ":localhost 366 " + this->getNick() + " " + channels[i] + " :End of /NAMES list\r\n";
+        send(this->_socket_fd, end_names_msg.c_str(), end_names_msg.length(), 0);
+
+        it->second.sendMessage(join_msg, *this);
+
+        std::cout << this->getNick() << " joined " << channels[i] << std::endl;
 	}
 }
