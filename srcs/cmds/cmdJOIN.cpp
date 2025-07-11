@@ -47,9 +47,9 @@ void Client::joinCommand(const std::string& command)
 	std::map<std::string, Channel>& serverChannels = this->_server->getChannels();
 	std::map<std::string, Channel>::iterator it;
 
-	int i = 0;
-	int pass_i = 0;
-	int channel_size = channels.size();
+	size_t i = 0;
+	size_t pass_i = 0;
+	size_t channel_size = channels.size();
 	while (i < channel_size)
 	{
 		if (!valid_channel_name(channels[i]))
