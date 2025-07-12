@@ -1,5 +1,6 @@
 #include "Irc.hpp"
 #include "Client.hpp"
+#include "Server.hpp"
 
 static void	ErrInvalid(int error_n, std::string err_arg, int socket_fd)
 {
@@ -67,8 +68,8 @@ void Client::nickCommand(const std::string& command)
 		{
 			if (isalpha(nickname[0]))
 			{
-				// if (nameDuplicated(nickname))
-				//	ErrInvalid(433, nickname);
+				if (!this->_server->isNicknameAvailable(nickname))
+					ErrInvalid(433, nickname, this->_socket_fd);
 				if (nickname.size() > 9)
 					this->_nickname = nickname.substr(0, 9);
 				else
