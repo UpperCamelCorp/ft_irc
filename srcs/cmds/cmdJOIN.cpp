@@ -50,7 +50,10 @@ void Client::joinCommand(const std::string& command)
 	for (size_t i = 0; i < channels.size(); ++i)
 	{
 		if (!valid_channel_name(channels[i]))
+		{
 			ErrInvalid(476, channels[i], this->_socket_fd);
+			continue;
+		}
 		else if (serverChannels.find(channels[i]) != serverChannels.end())
 		{
 			it = serverChannels.find(channels[i]);
