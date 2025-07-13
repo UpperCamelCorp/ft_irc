@@ -1,4 +1,5 @@
 #include "Server.hpp"
+#include "Irc.hpp"
 
 static void	ErrInvalid(int error_n, std::string err_arg, int socket_fd)
 {
@@ -22,12 +23,6 @@ static void	ErrInvalid(int error_n, std::string err_arg, int socket_fd)
 	else
 		return ;
 	send(socket_fd, response.c_str(), response.length(), 0);
-}
-
-bool	valid_channel_name(std::string str){
-	if (str[0] != '#' || str.length() > 50)
-		return false;
-	return true;
 }
 
 void Client::joinCommand(const std::string& command)
