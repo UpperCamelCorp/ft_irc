@@ -37,6 +37,7 @@ class Client
 		void		modeCommand(const std::string& command);
 		void		privmsgCommand(const std::string& command);
 		void		listCommand(const std::string& command);
+		void		inviteCommand(const std::string& command);
 		void		unavailableCommand(const std::string& command);
 		void		authClient();
 

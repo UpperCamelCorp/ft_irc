@@ -14,6 +14,7 @@ class Channel
     private:
         std::string _name;
         std::vector<Client> _clients;
+        std::vector<Client> _invitedClients;
         std::string _topic;
         std::vector<int> _operators;
         bool _topicMode;

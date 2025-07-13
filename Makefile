@@ -18,6 +18,7 @@ SRCS_FILES  = main.cpp\
       		cmds/cmdJOIN.cpp \
 			cmds/cmdPRIVMSG.cpp \
       		cmds/cmdLIST.cpp \
+			cmds/cmdINVITE.cpp \
 			Utils.cpp \
 
 SRCS_DIR  	= srcs
