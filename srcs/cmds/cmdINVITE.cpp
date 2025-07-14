@@ -2,7 +2,7 @@
 #include "../inc/Channel.hpp"
 #include "../inc/Server.hpp"
 
-static void	ErrInvalid(int error_n, std::string err_arg, int socket_fd)
+static void	ErrInvalid(int error_n, const std::string &err_arg, int socket_fd)
 {
 	std::string response;
 	if (error_n == 461)
