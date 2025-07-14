@@ -58,4 +58,6 @@ void Client::userCommand(const std::string& command)
 	this->_servername = servername;
 	this->_realname = realname;
 	this->_authStep.isUserSet = true;
+	if (!this->_authStep.isRegistered)
+		authClient();
 }
