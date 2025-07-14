@@ -17,9 +17,9 @@ class Channel
         std::vector<Client> _invitedClients;
         std::string _topic;
         std::vector<int> _operators;
+        std::string _key;
         bool _topicMode;
         bool _inviteOnly;
-        std::string _key;
         int _maxClients;
     public:
         Channel(const std::string &name);
