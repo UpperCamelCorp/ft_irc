@@ -1,6 +1,7 @@
 #include "Irc.hpp"
 #include "Client.hpp"
 #include "Server.hpp"
+#include "ErrMacro.hpp"
 
 static void	ErrInvalid(int error_n, std::string err_arg, int socket_fd)
 {
@@ -71,9 +72,17 @@ void Client::nickCommand(const std::string& command)
 				if (!this->_server->isNicknameAvailable(nickname))
 					ErrInvalid(433, nickname, this->_socket_fd);
 				if (nickname.size() > 9)
+				{
+					std::string newnick = RPL_NICK(this->getNick(), this->getUser(), nickname.substr(0, 9));
 					this->_nickname = nickname.substr(0, 9);
+					send(this->_socket_fd, newnick.c_str(), newnick.length(), 0);
+				}
 				else
+				{
+					std::string newnick = RPL_NICK(this->getNick(), this->getUser(), nickname);
 					this->_nickname = nickname;
+					send(this->_socket_fd, newnick.c_str(), newnick.length(), 0);
+				}
 				std::cout << "Nickname set to: " << this->_nickname << std::endl;
 				if (!this->_authStep.isRegistered)
 					this->_authStep.isNickSet = true;
