@@ -96,10 +96,21 @@ void removeChannelMode(Channel &channel, Client &client, const std::string &mode
                 send(client.getSocketFd(), error.c_str(), error.length(), 0);
                 return;
             }
-            if (channel.isOperator(client))
+            std::vector<Client> clients = channel.getClients();
+            for (std::vector<Client>::iterator it = clients.begin(); it != clients.end(); ++it)
             {
-                channel.removeOperator(client);
-                return;
+                if (it->getNick() == value)
+                {
+                    if (channel.isOperator(*it) && it->getNick() != client.getNick())
+                    {
+                        channel.removeOperator(*it);
+                        return;
+                    }
+                    if (it->getNick() == client.getNick())
+                    {
+                        error = ERR_CANNOTREMOVEOP(client.getNick(), channel.getName());
+                    }
+                }
             }
             std::cerr << "Client is not an operator in the channel." << std::endl;
             error = ERR_NOTONCHANNEL(client.getNick(), channel.getName());
