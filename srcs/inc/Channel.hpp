@@ -14,11 +14,12 @@ class Channel
     private:
         std::string _name;
         std::vector<Client> _clients;
+        std::vector<Client> _invitedClients;
         std::string _topic;
         std::vector<int> _operators;
+        std::string _key;
         bool _topicMode;
         bool _inviteOnly;
-        std::string _key;
         int _maxClients;
     public:
         Channel(const std::string &name);
@@ -44,8 +45,14 @@ class Channel
         std::vector<Client> getClients() const;
         std::string         getName() const;
         std::vector<int>    getOperators() const;
+        std::vector<Client> getInvitedClients() const;
+        bool                isClientInvited(const Client &client) const;
+        void                addInvitedClient(const Client &client);
+        void                removeInvitedClient(const Client &client);
+        bool                isClientInChannel(const Client &client) const;
         bool                isOperator(const Client &client) const;
         std::string         getPassword() const;
+        std::string         getMode() const;
 };
 
 #endif

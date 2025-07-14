@@ -1,4 +1,5 @@
 #include "Server.hpp"
+#include "Irc.hpp"
 
 static void	ErrInvalid(int error_n, std::string err_arg, int socket_fd)
 {
@@ -24,12 +25,6 @@ static void	ErrInvalid(int error_n, std::string err_arg, int socket_fd)
 	send(socket_fd, response.c_str(), response.length(), 0);
 }
 
-bool	valid_channel_name(std::string str){
-	if (str[0] != '#' || str.length() > 50)
-		return false;
-	return true;
-}
-
 void Client::joinCommand(const std::string& command)
 {
 	std::vector<std::string> arglist;
@@ -50,10 +45,18 @@ void Client::joinCommand(const std::string& command)
 	for (size_t i = 0; i < channels.size(); ++i)
 	{
 		if (!valid_channel_name(channels[i]))
+		{
 			ErrInvalid(476, channels[i], this->_socket_fd);
+			continue;
+		}
 		else if (serverChannels.find(channels[i]) != serverChannels.end())
 		{
 			it = serverChannels.find(channels[i]);
+			if (it->second.isInviteOnly() && !it->second.isClientInvited(*this))
+			{
+				ErrInvalid(473, it->second.getName(), this->_socket_fd);
+				continue;
+			}
 			if (it->second.getPassword() != "")
 			{
 				std::string provided_password = (pass_i < passwords.size()) ? passwords[pass_i] : "";

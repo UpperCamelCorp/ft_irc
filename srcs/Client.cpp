@@ -1,6 +1,7 @@
 #include "Client.hpp"
 #include "Irc.hpp"
 #include "Server.hpp"
+#include "ErrMacro.hpp"
 
 Client::Client() : _server(NULL), _username(""), _hostname(""), _servername(""), _realname(""), _nickname(""), _recvCommand("")
 {
@@ -103,11 +104,12 @@ void Client::ircCommand(const std::string& command)
     std::string enumtypes[] = {
         "NICK",
         "USER",
+		"PASS",
         "JOIN",
         "PART",
         "PRIVMSG",
         "PING",
-        "PONG",
+        "INVITE",
         "QUIT",
         "LIST",
         "TOPIC",
@@ -117,23 +119,30 @@ void Client::ircCommand(const std::string& command)
     void (Client::*commandFunctions[])(const std::string&) = {
         &Client::nickCommand,
         &Client::userCommand,
-        &Client::joinCommand,
+        &Client::unavailableCommand, // PASS
+        &Client::joinCommand, // JOIN
         &Client::partCommand,
         &Client::privmsgCommand,
         &Client::pingCommand,
-        &Client::unavailableCommand,
+		&Client::inviteCommand, // INVITE
         &Client::quitCommand,
         &Client::listCommand,
         &Client::topicCommand,
-        &Client::modeCommand,
-		&Client::kickCommand
-
+        &Client::modeCommand,  // MODE
+		&Client::kickCommand   // KICK
     };
     std::string commandType = command.substr(0, command.find(' '));
-    for (size_t i = 0; i < 12; ++i)
+    for (size_t i = 0; i < 13; ++i)
     {
         if (commandType == enumtypes[i])
         {
+			if (i > 2 && !this->_authStep.isRegistered)
+			{
+				std::cout << "Client is not registered, cannot execute command: " << enumtypes[i] << std::endl;
+				std::string response = ERR_NOTREGISTERED(this->getNick());
+				send(this->_socket_fd, response.c_str(), response.length(), 0);
+				return;
+			}
             std::cout << "Command type: " << enumtypes[i] << std::endl;
             (this->*commandFunctions[i])(command);
             return;
@@ -148,4 +157,9 @@ std::string     Client::getNick() const
 		return (this->_nickname);
 	else
 		return ("*");
+}
+
+const std::string&		Client::getUser() const
+{
+	return (this->_username);
 }

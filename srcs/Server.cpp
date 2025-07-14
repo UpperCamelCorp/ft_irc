@@ -211,3 +211,15 @@ bool Server::isNameDuplicate(const std::string &name) const
 std::map<int, Client>   Server::getClients() const{
     return _clients;
 }
+
+Client* Server::getClientByNick(const std::string &nick)
+{
+    for (std::map<int, Client>::iterator it = this->_clients.begin(); it != this->_clients.end(); ++it)
+    {
+        if (it->second.getNick() == nick)
+        {
+            return &(it->second);
+        }
+    }
+    return NULL;
+}

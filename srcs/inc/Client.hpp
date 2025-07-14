@@ -37,6 +37,7 @@ class Client
 		void		modeCommand(const std::string& command);
 		void		privmsgCommand(const std::string& command);
 		void		listCommand(const std::string& command);
+		void		inviteCommand(const std::string& command);
 		void		unavailableCommand(const std::string& command);
 		void		kickCommand(const std::string& command);
 		void		authClient();
@@ -49,6 +50,7 @@ class Client
 		int         getSocketFd() const;
 		void        handleCommand(std::string command);
   		std::string getNick() const;
+  		const std::string& getUser() const;
 };
 
 #endif

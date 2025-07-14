@@ -24,5 +24,6 @@ class Server;
 // Utils.cpp functions
 std::vector<std::string>	split_cmd(std::string str, char sep);
 std::string 				trim_cmd(const std::string& input);
+bool						valid_channel_name(const std::string &str);
 
 #endif
