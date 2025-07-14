@@ -315,6 +315,7 @@ std::string Channel::getMode() const {
     if (this->_maxClients > 0)
         mode += "l";
     return mode;
+}
 
 bool Channel::isClientInvited(const Client &client) const {
     for (std::vector<Client>::const_iterator it = this->_invitedClients.begin(); it != this->_invitedClients.end(); ++it) {
