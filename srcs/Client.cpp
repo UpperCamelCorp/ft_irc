@@ -146,3 +146,8 @@ std::string     Client::getNick() const
 	else
 		return ("*");
 }
+
+const std::string&		Client::getUser() const
+{
+	return (this->_username);
+}
