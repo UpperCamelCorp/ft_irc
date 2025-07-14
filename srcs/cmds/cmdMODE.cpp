@@ -1,6 +1,7 @@
 #include "../inc/Client.hpp"
 #include "../inc/Channel.hpp"
 #include "../inc/Server.hpp"
+#include "../inc/Irc.hpp"
 
 static void	ErrInvalid(int error_n, std::string err_arg, int socket_fd)
 {
@@ -121,15 +122,8 @@ void removeChannelMode(Channel &channel, Client &client, const std::string &mode
 
 void Client::modeCommand(const std::string &command)
 {
-    std::istringstream iss(command);
-    std::vector<std::string> args;
-    std::string token;
+    std::vector<std::string> args = split_cmd(command, ' ');
     std::cout << "MODE command received: " << command << std::endl;
-    while (std::getline(iss, token, ' '))
-    {
-        if (!token.empty())
-            args.push_back(token);
-    }
     if (args.size() < 3)
     {
         std::cerr << "Not enough arguments for MODE command." << std::endl;
