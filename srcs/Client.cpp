@@ -68,20 +68,25 @@ void Client::handleCommand(std::string command)
 		std::cout << "Executing command: " << execCommand << std::endl;
 		ircCommand(execCommand);
 	} while (command.length() > 0);
-	if (!this->_authStep.isRegistered)
-		authClient();
 	std::cout << "Command handled successfully." << std::endl;
 }
 
 void Client::authClient()
 {
+	std::string response;
 	std::cout << "Authenticating client: " << this->getNick() << std::endl;
 	if (this->_authStep.isNickSet && this->_authStep.isUserSet && this->_authStep.isPasswordSet && !this->_authStep.isRegistered)
 	{
-		std::string response = ":localhost 001 " + this->getNick() + " :Welcome to the IRC server, " + this->getNick() + "!\r\n";
+		response = ":localhost 001 " + this->getNick() + " :Welcome to the IRC server, " + this->getNick() + "!\r\n";
 		send(this->_socket_fd, response.c_str(), response.length(), 0);
 		this->_authStep.isRegistered = true;
 		std::cout << "Client " << this->getNick() << " is now registered." << std::endl;
+	}
+	else if (this->_authStep.isNickSet && this->_authStep.isUserSet && !this->_authStep.isPasswordSet)
+	{
+		response = ERR_PASSWDMISMATCH(this->getNick());
+		send(this->_socket_fd, response.c_str(), response.length(), 0);
+		this->_server->closeClient(this->getSocketFd());
 	}
 	else
 	{
@@ -90,7 +95,7 @@ void Client::authClient()
 			std::cout << "Nickname is not set." << std::endl;
 		if (!this->_authStep.isUserSet)
 			std::cout << "User information is not set." << std::endl;
-		std::string response = ":localhost 451 " + this->getNick() + " :You must set your nickname and user information before registering.\r\n";
+		response = ":localhost 451 " + this->getNick() + " :You must set your nickname and user information before registering.\r\n";
 		send(this->_socket_fd, response.c_str(), response.length(), 0);
 	}
 }
