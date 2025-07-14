@@ -1,6 +1,7 @@
 #include "Client.hpp"
 #include "Irc.hpp"
 #include "Server.hpp"
+#include "ErrMacro.hpp"
 
 Client::Client() : _server(NULL), _username(""), _hostname(""), _servername(""), _realname(""), _nickname(""), _recvCommand("")
 {
@@ -103,6 +104,7 @@ void Client::ircCommand(const std::string& command)
     std::string enumtypes[] = {
         "NICK",
         "USER",
+		"PASS",
         "JOIN",
         "PART",
         "PRIVMSG",
@@ -116,6 +118,7 @@ void Client::ircCommand(const std::string& command)
     void (Client::*commandFunctions[])(const std::string&) = {
         &Client::nickCommand,
         &Client::userCommand,
+        &Client::unavailableCommand, // PASS
         &Client::joinCommand, // JOIN
         &Client::partCommand,
         &Client::privmsgCommand, // PRIVMSG
@@ -127,10 +130,17 @@ void Client::ircCommand(const std::string& command)
         &Client::modeCommand,  // MODE
     };
     std::string commandType = command.substr(0, command.find(' '));
-    for (size_t i = 0; i < 11; ++i)
+    for (size_t i = 0; i < 12; ++i)
     {
         if (commandType == enumtypes[i])
         {
+			if (i > 2 && !this->_authStep.isRegistered)
+			{
+				std::cout << "Client is not registered, cannot execute command: " << enumtypes[i] << std::endl;
+				std::string response = ERR_NOTREGISTERED(this->getNick());
+				send(this->_socket_fd, response.c_str(), response.length(), 0);
+				return;
+			}
             std::cout << "Command type: " << enumtypes[i] << std::endl;
             (this->*commandFunctions[i])(command);
             return;
