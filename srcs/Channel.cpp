@@ -303,3 +303,12 @@ bool Channel::isClientInChannel(const Client &client) const {
     }
     return false;
 }
+
+bool Channel::isClientInvited(const Client &client) const {
+    for (std::vector<Client>::const_iterator it = this->_invitedClients.begin(); it != this->_invitedClients.end(); ++it) {
+        if (it->getSocketFd() == client.getSocketFd()) {
+            return true;
+        }
+    }
+    return false;
+}

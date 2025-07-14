@@ -46,6 +46,7 @@ class Channel
         std::string         getName() const;
         std::vector<int>    getOperators() const;
         std::vector<Client> getInvitedClients() const;
+        bool                isClientInvited(const Client &client) const;
         void                addInvitedClient(const Client &client);
         void                removeInvitedClient(const Client &client);
         bool                isClientInChannel(const Client &client) const;
