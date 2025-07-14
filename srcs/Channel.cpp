@@ -303,3 +303,16 @@ bool Channel::isClientInChannel(const Client &client) const {
     }
     return false;
 }
+
+std::string Channel::getMode() const {
+    std::string mode;
+    if (this->_topicMode)
+        mode += "t";
+    if (this->_inviteOnly)
+        mode += "i";
+    if (!this->_key.empty())
+        mode += "k";
+    if (this->_maxClients > 0)
+        mode += "l";
+    return mode;
+}
