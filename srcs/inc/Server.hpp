@@ -35,6 +35,7 @@ class Server
 		std::map<std::string, Channel>& getChannels();
         bool                			isNicknameAvailable(const std::string &nickname) const;
         std::map<int, Client>			getClients(void) const;
+        Client*                         getClientByNick(const std::string &nick);
         Channel*                        getChannelByName(const std::string &name);
         bool                            isNameDuplicate(const std::string &name) const;
 };
