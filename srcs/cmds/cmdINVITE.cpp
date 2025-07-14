@@ -17,6 +17,8 @@ static void	ErrInvalid(int error_n, const std::string &err_arg, int socket_fd)
 		response = ":localhost 476 " + err_arg + " :Bad Channel Mask\n";
     else if (error_n == 482)
         response = ":localhost 482 " + err_arg + " :You're not channel operator\n";
+    else if (error_n == 442)
+        response = ":localhost 442 " + err_arg + " :You're not on that channel\n";
 	else
 		return ;
 	send(socket_fd, response.c_str(), response.length(), 0);
@@ -41,10 +43,15 @@ void    Client::inviteCommand(const std::string& command)
 
     std::map<std::string, Channel>& serverChannels = this->_server->getChannels();
     std::map<std::string, Channel>::iterator it = serverChannels.find(channelName);
-    
+
     if (it == serverChannels.end())
     {
         ErrInvalid(403, channelName, this->_socket_fd);
+        return;
+    }
+    if (!it->second.isClientInChannel(*this))
+    {
+        ErrInvalid(442, channelName, this->_socket_fd);
         return;
     }
     if (it->second.isInviteOnly() && !it->second.isOperator(*this))
