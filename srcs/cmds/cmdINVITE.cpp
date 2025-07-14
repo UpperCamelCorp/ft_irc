@@ -32,8 +32,8 @@ void    Client::inviteCommand(const std::string& command)
         ErrInvalid(461, this->getNick(), this->_socket_fd);
         return;
     }
-    std::string channelName = arglist[1];
-    std::string nickToInvite = arglist[2];
+    std::string nickToInvite = arglist[1];
+    std::string channelName = arglist[2];
 
     if (!valid_channel_name(channelName))
     {
