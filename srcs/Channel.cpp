@@ -278,6 +278,11 @@ std::vector<Client> Channel::getInvitedClients() const {
 }
 
 void Channel::addInvitedClient(const Client &client) {
+    for (std::vector<Client>::const_iterator it = this->_invitedClients.begin(); it != this->_invitedClients.end(); ++it) {
+        if (it->getSocketFd() == client.getSocketFd()) {
+            return;
+        }
+    }
     this->_invitedClients.push_back(client);
 }
 
