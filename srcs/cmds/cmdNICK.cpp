@@ -48,7 +48,7 @@ void Client::nickCommand(const std::string& command)
 		{
 			if (!this->_server->isNicknameAvailable(nickname))
 			{
-				std::string response = ERR_NICKNAMEINUSE(this->getNick(), nickname);
+				response = ERR_NICKNAMEINUSE(this->getNick(), nickname);
 				send(_socket_fd, response.c_str(), response.length(), 0);
 				return ;
 			}
@@ -70,7 +70,7 @@ void Client::nickCommand(const std::string& command)
 		}
 		else
 		{
-			std::string response = ERR_ERRONEUSNICKNAME(this->getNick(), nickname);
+			response = ERR_ERRONEUSNICKNAME(this->getNick(), nickname);
 			send(_socket_fd, response.c_str(), response.length(), 0);
 			return ;
 		}

@@ -107,5 +107,10 @@ void Client::partCommand(const std::string& command)
 
 		channel.removeClient(*this);
 		std::cout << "Client " << nick << " parted from channel " << channel_name << " with message: " << (part_message.empty() ? "<none>" : part_message) << std::endl;
+		if (channel.getClients().size() == 0)
+		{
+			std::cout << "The last Client left, channel is closing...\n";
+			channels.erase(chan_it->second.getName());
+		}
 	}
 }
