@@ -52,6 +52,7 @@ class Channel
         bool                isClientInChannel(const Client &client) const;
         bool                isOperator(const Client &client) const;
         std::string         getPassword() const;
+        std::string         getMode() const;
 };
 
 #endif
