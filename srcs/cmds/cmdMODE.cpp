@@ -124,13 +124,13 @@ void Client::modeCommand(const std::string &command)
 {
     std::vector<std::string> args = split_cmd(command, ' ');
     std::cout << "MODE command received: " << command << std::endl;
-    if (args.size() < 3)
+    if (args.size() < 2)
     {
         std::cerr << "Not enough arguments for MODE command." << std::endl;
         ErrInvalid(461, this->getNick(), this->_socket_fd);
         return;
     }
-    if (args[1][0] != '#')
+    if (!valid_channel_name(args[1]))
     {
         std::cerr << "Invalid channel name for MODE command." << std::endl;
         ErrInvalid(403, this->getNick(), this->_socket_fd);
@@ -141,6 +141,13 @@ void Client::modeCommand(const std::string &command)
     {
         std::cerr << "Channel not found for MODE command." << std::endl;
         ErrInvalid(403, this->getNick(), this->_socket_fd);
+        return;
+    }
+    if (args.size() == 2)
+    {
+        std::string modes = channel->getMode();
+        std::string mode_string = "MODE " + channel->getName() + " :" + modes + "\r\n";
+        send(this->_socket_fd, mode_string.c_str(), mode_string.length(), 0);
         return;
     }
     if (!channel->isOperator(*this))
