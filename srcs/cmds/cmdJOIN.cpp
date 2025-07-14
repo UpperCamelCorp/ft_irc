@@ -52,6 +52,11 @@ void Client::joinCommand(const std::string& command)
 		else if (serverChannels.find(channels[i]) != serverChannels.end())
 		{
 			it = serverChannels.find(channels[i]);
+			if (it->second.isInviteOnly() && !it->second.isClientInvited(*this))
+			{
+				ErrInvalid(473, it->second.getName(), this->_socket_fd);
+				continue;
+			}
 			if (it->second.getPassword() != "")
 			{
 				std::string provided_password = (pass_i < passwords.size()) ? passwords[pass_i] : "";
