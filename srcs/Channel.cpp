@@ -272,3 +272,29 @@ int Channel::getMaxClients() const
 std::string     Channel::getPassword() const {
     return (_key);
 }
+
+std::vector<Client> Channel::getInvitedClients() const {
+    return this->_invitedClients;
+}
+
+void Channel::addInvitedClient(const Client &client) {
+    this->_invitedClients.push_back(client);
+}
+
+void Channel::removeInvitedClient(const Client &client) {
+    for (std::vector<Client>::iterator it = this->_invitedClients.begin(); it != this->_invitedClients.end(); ++it) {
+        if (it->getSocketFd() == client.getSocketFd()) {
+            this->_invitedClients.erase(it);
+            return;
+        }
+    }
+}
+
+bool Channel::isClientInChannel(const Client &client) const {
+    for (std::vector<Client>::const_iterator it = this->_clients.begin(); it != this->_clients.end(); ++it) {
+        if (it->getSocketFd() == client.getSocketFd()) {
+            return true;
+        }
+    }
+    return false;
+}
