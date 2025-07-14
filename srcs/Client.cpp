@@ -87,6 +87,7 @@ void Client::authClient()
 		response = ERR_PASSWDMISMATCH(this->getNick());
 		send(this->_socket_fd, response.c_str(), response.length(), 0);
 		this->_server->closeClient(this->getSocketFd());
+		std::cout << "Client disconnected" << std::endl;
 	}
 	else
 	{
