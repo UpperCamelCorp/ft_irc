@@ -83,7 +83,7 @@ void Client::joinCommand(const std::string& command)
 			std::cout << "created and joined " << channels[i] << std::endl;
 		}
 
-        std::string join_msg = ":" + this->getNick() + " JOIN :" + channels[i] + "\r\n";
+        std::string join_msg = ":" + this->getNick() + "!" + this->getUser() + "@" + "localhost" + " JOIN :" + channels[i] + "\r\n";
         send(this->_socket_fd, join_msg.c_str(), join_msg.length(), 0);
 
         if (!it->second.getTopic().empty())
