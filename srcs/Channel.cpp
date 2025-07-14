@@ -5,6 +5,10 @@
 
 Channel::Channel(const std::string &name) : _name(name), _topic(""), _key("")
 {
+    std::cout << "Created a channel called : " << name << std::endl;
+    this->_topicMode = true;
+    this->_inviteOnly = false;
+    this->_maxClients = -1;
 }
 
 Channel::Channel(const std::string &name, const std::string &password) : _name(name), _key(password) 
