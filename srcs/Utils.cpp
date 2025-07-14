@@ -26,8 +26,8 @@ std::string trim_cmd(const std::string& input)
     return input.substr(0, end);
 }
 
-bool	valid_channel_name(std::string str){
-	if (str[0] != '#' || str.length() > 50)
+bool	valid_channel_name(const std::string& str){
+	if (str.empty() || str[0] != '#' || str.length() > 50)
 		return false;
 	return true;
 }
