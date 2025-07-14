@@ -1,6 +1,7 @@
 #include "Client.hpp"
 #include "Irc.hpp"
 #include "Server.hpp"
+#include "ErrMacro.hpp"
 
 Client::Client() : _server(NULL), _username(""), _hostname(""), _servername(""), _realname(""), _nickname(""), _recvCommand("")
 {
@@ -133,6 +134,13 @@ void Client::ircCommand(const std::string& command)
     {
         if (commandType == enumtypes[i])
         {
+			if (i > 2 && !this->_authStep.isRegistered)
+			{
+				std::cout << "Client is not registered, cannot execute command: " << enumtypes[i] << std::endl;
+				std::string response = ERR_NOTREGISTERED(this->getNick());
+				send(this->_socket_fd, response.c_str(), response.length(), 0);
+				return;
+			}
             std::cout << "Command type: " << enumtypes[i] << std::endl;
             (this->*commandFunctions[i])(command);
             return;
