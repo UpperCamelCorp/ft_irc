@@ -7,12 +7,16 @@ static void	ErrInvalid(int error_n, std::string err_arg, int socket_fd)
 	std::string response;
 	if (error_n == 461)
 		response = ":localhost 461 " + err_arg + " :No enough parameters\n";
+    else if (error_n == 401)
+        response = ":localhost 401 " + err_arg + " :No such nick\n";
 	else if (error_n == 403)
-		response = ":localhost " + err_arg + " :No such channel\n";
+		response = ":localhost 403 " + err_arg + " :No such channel\n";
+    else if (error_n == 443)
+        response = ":localhost 443 " + err_arg + " :User already in channel\n";
 	else if (error_n == 476)
-		response = ":localhost " + err_arg + " :Bad Channel Mask\n";
+		response = ":localhost 476 " + err_arg + " :Bad Channel Mask\n";
     else if (error_n == 482)
-        response = ":localhost " + err_arg + " :You're not channel operator\n";
+        response = ":localhost 482 " + err_arg + " :You're not channel operator\n";
 	else
 		return ;
 	send(socket_fd, response.c_str(), response.length(), 0);
@@ -40,7 +44,7 @@ void    Client::inviteCommand(const std::string& command)
     
     if (it == serverChannels.end())
     {
-        ErrInvalid(403, channelName, this->_socket_fd); // No such channel
+        ErrInvalid(403, channelName, this->_socket_fd);
         return;
     }
     if (it->second.isInviteOnly() && !it->second.isOperator(*this))
@@ -53,24 +57,23 @@ void    Client::inviteCommand(const std::string& command)
     Client* clientToInvite = this->_server->getClientByNick(nickToInvite);
     if (!clientToInvite)
     {
-        ErrInvalid(401, nickToInvite, this->_socket_fd); // No such nick
+        ErrInvalid(401, nickToInvite, this->_socket_fd);
         return;
     }
     if (channel.isOperator(*this))
     {
-        const std::vector<Client>& clients = channel.getClients();
-        for (size_t i = 0; i < clients.size(); ++i)
+        std::vector<Client> clientsInChannel = channel.getInvitedClients();
+        if (channel.isClientInChannel(*clientToInvite))
         {
-            if (clients[i].getNick() == nickToInvite)
-            {
-                std::string response = ":localhost 341 " + this->getNick() + " " + nickToInvite + " " + channelName + "\n";
-                send(this->_socket_fd, response.c_str(), response.length(), 0);
-                return;
-            }
+            ErrInvalid(443, nickToInvite, this->_socket_fd);
+            return;
         }
-        channel.addClient(*clientToInvite, channel.getChannelKey());
-        std::string response = ":localhost 341 " + this->getNick() + " " + nickToInvite + " " + channelName + "\n";
-        send(this->_socket_fd, response.c_str(), response.length(), 0);
+        else
+        {
+            channel.addInvitedClient(*clientToInvite);
+            std::string response = ":localhost 341 " + this->getNick() + " " + nickToInvite + " " + channelName + "\n";
+            send(this->_socket_fd, response.c_str(), response.length(), 0);
+        }
     }
     else
         ErrInvalid(482, channelName, this->_socket_fd);
