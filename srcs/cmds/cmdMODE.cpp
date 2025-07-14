@@ -2,25 +2,11 @@
 #include "../inc/Channel.hpp"
 #include "../inc/Server.hpp"
 #include "../inc/Irc.hpp"
-
-static void	ErrInvalid(int error_n, std::string err_arg, int socket_fd)
-{
-    std::string error_msg;  
-    if (error_n == 461)
-        error_msg = ":localhost 461 " + err_arg + " MODE :Not enough parameters\r\n";
-    else if (error_n == 403)
-        error_msg = ":localhost 403 " + err_arg + " :No such channel\r\n";
-    else if (error_n == 482)
-        error_msg = ":localhost 482 " + err_arg + " :You're not channel operator\r\n";
-    else if (error_n == 441)
-        error_msg = ":localhost 441 " + err_arg + " :They aren't on that channel\r\n";
-    else
-        return;
-    send(socket_fd, error_msg.c_str(), error_msg.length(), 0);
-}
+#include "../inc/ErrMacro.hpp"
 
 void    addChannelMode(Channel &channel, Client &client, const std::string &mode, const std::string &value)
 {
+    std::string error;
     switch (mode[0])
     {
         case 't': {
@@ -35,7 +21,8 @@ void    addChannelMode(Channel &channel, Client &client, const std::string &mode
             if (value.empty())
             {
                 std::cerr << "Key mode requires a key value." << std::endl;
-                ErrInvalid(461, channel.getName(), client.getSocketFd());
+                error = ERR_NEEDMOREPARAMS(channel.getName(), "k");
+                send(client.getSocketFd(), error.c_str(), error.length(), 0);
                 return;
             }
             channel.setChannelKey(value);
@@ -45,7 +32,8 @@ void    addChannelMode(Channel &channel, Client &client, const std::string &mode
             if (value.empty())
             {                
                 std::cerr << "Operator mode requires a nickname." << std::endl;
-                ErrInvalid(461, channel.getName(), client.getSocketFd());
+                error = ERR_NEEDMOREPARAMS(channel.getName(), "o");
+                send(client.getSocketFd(), error.c_str(), error.length(), 0);
                 return;
             }
             std::vector<Client> clients = channel.getClients();
@@ -61,7 +49,8 @@ void    addChannelMode(Channel &channel, Client &client, const std::string &mode
                 }
             }
             std::cerr << "No such user in channel for operator mode." << std::endl;
-            ErrInvalid(441, client.getNick() + " " + value + " " + channel.getName(), client.getSocketFd());
+            error = ERR_NOTONCHANNEL(client.getNick(), channel.getName());
+            send(client.getSocketFd(), error.c_str(), error.length(), 0);
             return;
         }
         case 'l': {
@@ -75,7 +64,8 @@ void    addChannelMode(Channel &channel, Client &client, const std::string &mode
                 }
             }
             std::cerr << "Limit mode requires a numeric value." << std::endl;
-            ErrInvalid(461, channel.getName(), client.getSocketFd());
+            error = ERR_NEEDMOREPARAMS(channel.getName(), "l");
+            send(client.getSocketFd(), error.c_str(), error.length(), 0);
             return;
         }
     }
@@ -83,6 +73,7 @@ void    addChannelMode(Channel &channel, Client &client, const std::string &mode
 
 void removeChannelMode(Channel &channel, Client &client, const std::string &mode, const std::string &value)
 {
+    std::string error;
     switch (mode[0])
     {
         case 't': {
@@ -101,20 +92,33 @@ void removeChannelMode(Channel &channel, Client &client, const std::string &mode
             if (value.empty())
             {
                 std::cerr << "Operator mode requires a nickname." << std::endl;
-                ErrInvalid(461, channel.getName(), client.getSocketFd());
+                error = ERR_NEEDMOREPARAMS(channel.getName(), "o");
+                send(client.getSocketFd(), error.c_str(), error.length(), 0);
                 return;
             }
-            if (channel.isOperator(client))
+            std::vector<Client> clients = channel.getClients();
+            for (std::vector<Client>::iterator it = clients.begin(); it != clients.end(); ++it)
             {
-                channel.removeOperator(client);
-                return;
+                if (it->getNick() == value)
+                {
+                    if (channel.isOperator(*it) && it->getNick() != client.getNick())
+                    {
+                        channel.removeOperator(*it);
+                        return;
+                    }
+                    if (it->getNick() == client.getNick())
+                    {
+                        error = ERR_CANNOTREMOVEOP(client.getNick(), channel.getName());
+                    }
+                }
             }
             std::cerr << "Client is not an operator in the channel." << std::endl;
-            ErrInvalid(482, client.getNick() + " " + channel.getName(), client.getSocketFd());
+            error = ERR_NOTONCHANNEL(client.getNick(), channel.getName());
+            send(client.getSocketFd(), error.c_str(), error.length(), 0);
             return;
         }
         case 'l': {
-            channel.setMaxClients(0);
+            channel.setMaxClients(-1);
             return;
         }
     }
@@ -123,24 +127,29 @@ void removeChannelMode(Channel &channel, Client &client, const std::string &mode
 void Client::modeCommand(const std::string &command)
 {
     std::vector<std::string> args = split_cmd(command, ' ');
-    std::cout << "MODE command received: " << command << std::endl;
+    std::string response;
     if (args.size() < 2)
     {
         std::cerr << "Not enough arguments for MODE command." << std::endl;
-        ErrInvalid(461, this->getNick(), this->_socket_fd);
+        response = ERR_NEEDMOREPARAMS(this->getNick(), "MODE");
+        send(this->_socket_fd, response.c_str(), response.length(), 0);
         return;
     }
     if (!valid_channel_name(args[1]))
     {
+        if (this->_nickname == args[1])
+            return;
         std::cerr << "Invalid channel name for MODE command." << std::endl;
-        ErrInvalid(403, this->getNick(), this->_socket_fd);
+        response = ERR_NOSUCHCHANNEL(this->getNick(), args[1]);
+        send(this->_socket_fd, response.c_str(), response.length(), 0);
         return;
     }
     Channel *channel = this->_server->getChannelByName(args[1]);
     if (!channel)
     {
         std::cerr << "Channel not found for MODE command." << std::endl;
-        ErrInvalid(403, this->getNick(), this->_socket_fd);
+        response = ERR_NOSUCHCHANNEL(this->getNick(), args[1]);
+        send(this->_socket_fd, response.c_str(), response.length(), 0);
         return;
     }
     if (args.size() == 2)
@@ -153,7 +162,8 @@ void Client::modeCommand(const std::string &command)
     if (!channel->isOperator(*this))
     {
         std::cerr << "Client is not an operator in the channel." << std::endl;
-        ErrInvalid(482, this->getNick(), this->_socket_fd);
+        response = ERR_CHANOPRIVSNEEDED(this->getNick(), channel->getName());
+        send(this->_socket_fd, response.c_str(), response.length(), 0);
         return;
     }
     std::string mode = args[2];
@@ -163,13 +173,15 @@ void Client::modeCommand(const std::string &command)
         if (mode.empty())
         {
             std::cerr << "No mode specified to add." << std::endl;
-            ErrInvalid(461, this->getNick(), this->_socket_fd);
+            response = ERR_NEEDMOREPARAMS(this->getNick(), "MODE");
+            send(this->_socket_fd, response.c_str(), response.length(), 0);
             return;
         }
         if (mode.length() > 1 && mode[1] == ' ')
         {
             std::cerr << "Invalid mode format." << std::endl;
-            ErrInvalid(461, this->getNick(), this->_socket_fd);
+            response = ERR_NEEDMOREPARAMS(this->getNick(), "MODE");
+            send(this->_socket_fd, response.c_str(), response.length(), 0);
             return;
         }
         addChannelMode(*channel, *this, mode.substr(0, 1), args.size() > 3 ? args[3] : "");
@@ -180,13 +192,15 @@ void Client::modeCommand(const std::string &command)
         if (mode.empty())
         {
             std::cerr << "No mode specified to remove." << std::endl;
-            ErrInvalid(461, this->getNick(), this->_socket_fd);
+            response = ERR_NEEDMOREPARAMS(this->getNick(), "MODE");
+            send(this->_socket_fd, response.c_str(), response.length(), 0);
             return;
         }
         if (mode.length() > 1 && mode[1] == ' ')
         {
             std::cerr << "Invalid mode format." << std::endl;
-            ErrInvalid(461, this->getNick(), this->_socket_fd);
+            response = ERR_NEEDMOREPARAMS(this->getNick(), "MODE");
+            send(this->_socket_fd, response.c_str(), response.length(), 0);
             return;
         }
         removeChannelMode(*channel, *this, mode.substr(0, 1), args.size() > 3 ? args[3] : "");
@@ -194,6 +208,7 @@ void Client::modeCommand(const std::string &command)
     else
     {
         std::cerr << "Invalid mode prefix. Use '+' or '-'." << std::endl;
-        ErrInvalid(461, this->getNick(), this->_socket_fd);
+        response = ERR_NEEDMOREPARAMS(this->getNick(), "MODE");
+        send(this->_socket_fd, response.c_str(), response.length(), 0);
     }
 }
