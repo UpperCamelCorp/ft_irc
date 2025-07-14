@@ -3,12 +3,12 @@
 
 #include "Client.hpp"
 
-Channel::Channel(const std::string &name) : _name(name), _topic(""), _key(""), _maxClients(-1), _topicMode(true), _inviteOnly(false)
+Channel::Channel(const std::string &name) : _name(name), _topic(""), _key(""), _topicMode(true), _inviteOnly(false), _maxClients(-1)
 {
     std::cout << "Created a channel called : " << name << std::endl;
 }
 
-Channel::Channel(const std::string &name, const std::string &password) : _name(name), _key(password), _maxClients(-1), _topicMode(true), _inviteOnly(false)
+Channel::Channel(const std::string &name, const std::string &password) : _name(name), _key(password), _topicMode(true), _inviteOnly(false), _maxClients(-1)
 {
     std::cout << "Created a restricted channel called : " << name << std::endl;
 }
