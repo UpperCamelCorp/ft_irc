@@ -118,7 +118,7 @@ void Client::ircCommand(const std::string& command)
     void (Client::*commandFunctions[])(const std::string&) = {
         &Client::nickCommand,
         &Client::userCommand,
-        &Client::unavailableCommand, // PASS
+        &Client::passCommand, // PASS
         &Client::joinCommand, // JOIN
         &Client::partCommand,
         &Client::privmsgCommand, // PRIVMSG
