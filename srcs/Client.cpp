@@ -120,11 +120,11 @@ void Client::ircCommand(const std::string& command)
         &Client::partCommand,
         &Client::privmsgCommand, // PRIVMSG
         &Client::pingCommand,
-        &Client::unavailableCommand, // PONG
         &Client::quitCommand,
         &Client::listCommand, // LIST
         &Client::topicCommand,
-        &Client::modeCommand  // MODE
+        &Client::modeCommand,  // MODE
+		&Client::inviteCommand, // INVITE
     };
     std::string commandType = command.substr(0, command.find(' '));
     for (size_t i = 0; i < 11; ++i)

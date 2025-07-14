@@ -96,7 +96,7 @@ void Client::topicCommand(const std::string& command)
         topic = topic.substr(1);
     }
 
-    if (!channel.isOperator(*this))
+    if (!channel.isOperator(*this) && channel.getTopicMode())
 	{
         std::string response = ":localhost 482 " + _nickname + " " + channel_name + " :You're not channel operator\r\n";
         send(_socket_fd, response.c_str(), response.length(), 0);
