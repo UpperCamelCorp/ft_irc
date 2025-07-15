@@ -119,7 +119,8 @@ void Client::ircCommand(const std::string& command)
         "QUIT",
         "LIST",
         "TOPIC",
-        "MODE"
+        "MODE",
+		"KICK"
     };
     void (Client::*commandFunctions[])(const std::string&) = {
         &Client::nickCommand,
@@ -127,16 +128,17 @@ void Client::ircCommand(const std::string& command)
         &Client::passCommand, // PASS
         &Client::joinCommand, // JOIN
         &Client::partCommand,
-        &Client::privmsgCommand, // PRIVMSG
+        &Client::privmsgCommand,
         &Client::pingCommand,
 		&Client::inviteCommand, // INVITE
         &Client::quitCommand,
-        &Client::listCommand, // LIST
+        &Client::listCommand,
         &Client::topicCommand,
         &Client::modeCommand,  // MODE
+		&Client::kickCommand   // KICK
     };
     std::string commandType = command.substr(0, command.find(' '));
-    for (size_t i = 0; i < 12; ++i)
+    for (size_t i = 0; i < 13; ++i)
     {
         if (commandType == enumtypes[i])
         {

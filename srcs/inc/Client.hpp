@@ -40,6 +40,7 @@ class Client
 		void		inviteCommand(const std::string& command);
 		void		passCommand(const std::string& command);
 		void		unavailableCommand(const std::string& command);
+		void		kickCommand(const std::string& command);
 		void		authClient();
 
 	public:
