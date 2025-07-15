@@ -47,7 +47,7 @@ void Client::handleCommand(std::string command)
 				execCommand = command.substr(0, pos);
 			else
 			{
-				execCommand = this->_recvCommand + command;
+				execCommand = this->_recvCommand + command.substr(0, pos);
 				this->_recvCommand.clear();
 			}
 			command = command.empty();
