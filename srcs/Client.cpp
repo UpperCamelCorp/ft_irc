@@ -93,8 +93,11 @@ void Client::authClient()
 	{
 		std::cout << "Client is not fully authenticated yet." << std::endl;
 		if (!this->_authStep.isNickSet)
+		{
 			std::cout << "Nickname is not set." << std::endl;
-		if (!this->_authStep.isUserSet)
+			return;
+		}
+			if (!this->_authStep.isUserSet)
 			std::cout << "User information is not set." << std::endl;
 		response = ":localhost 451 " + this->getNick() + " :You must set your nickname and user information before registering.\r\n";
 		send(this->_socket_fd, response.c_str(), response.length(), 0);
