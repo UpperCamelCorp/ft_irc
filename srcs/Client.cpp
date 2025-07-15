@@ -97,7 +97,7 @@ void Client::authClient()
 			std::cout << "Nickname is not set." << std::endl;
 			return;
 		}
-			if (!this->_authStep.isUserSet)
+		if (!this->_authStep.isUserSet)
 			std::cout << "User information is not set." << std::endl;
 		response = ":localhost 451 " + this->getNick() + " :You must set your nickname and user information before registering.\r\n";
 		send(this->_socket_fd, response.c_str(), response.length(), 0);
