@@ -65,7 +65,6 @@ void Client::joinCommand(const std::string& command)
 					ErrInvalid(475, it->second.getName(), this->_socket_fd);
 					std::string partCmd = "PART " + it->second.getName() + "\r\n";
 					this->partCommand(partCmd);
-					i++;
 					pass_i++;
 					continue;
 				}
