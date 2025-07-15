@@ -102,7 +102,7 @@ void Server::handleClient(Client &client)
 
     memset(buffer, 0, sizeof(buffer));
     bytes_received = recv(client.getSocketFd(), buffer, sizeof(buffer) - 1, 0);
-    if (bytes_received < 0)
+    if (bytes_received <= 0)
     {
         std::cout << "Client disconnected" << std::endl;
         closeClient(client.getSocketFd());
