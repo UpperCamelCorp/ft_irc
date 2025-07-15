@@ -7,14 +7,21 @@
 void    addChannelMode(Channel &channel, Client &client, const std::string &mode, const std::string &value)
 {
     std::string error;
+    std::string rpl;
     switch (mode[0])
     {
         case 't': {
             channel.setTopicMode(true);
+            rpl = ":" + client.getNick() + "!" + client.getUser() + "@" + "localhost" + " MODE " + channel.getName() + " +t\r\n";
+            send(client.getSocketFd(), rpl.c_str(), rpl.length(), 0);
+            channel.sendMessage(rpl, client);
             return;
         }
         case 'i': {
             channel.setInviteOnly(true);
+            rpl = ":" + client.getNick() + "!" + client.getUser() + "@" + "localhost" + " MODE " + channel.getName() + " +i\r\n";
+            send(client.getSocketFd(), rpl.c_str(), rpl.length(), 0);
+            channel.sendMessage(rpl, client);
             return;
         }
         case 'k':{
@@ -26,6 +33,9 @@ void    addChannelMode(Channel &channel, Client &client, const std::string &mode
                 return;
             }
             channel.setChannelKey(value);
+            rpl = ":" + client.getNick() + "!" + client.getUser() + "@" + "localhost" + " MODE " + channel.getName() + " +k " + value + "\r\n";
+            send(client.getSocketFd(), rpl.c_str(), rpl.length(), 0);
+            channel.sendMessage(rpl, client);
             return;
         }
         case 'o': {
@@ -44,6 +54,9 @@ void    addChannelMode(Channel &channel, Client &client, const std::string &mode
                     if (!channel.isOperator(*it))
                     {
                         channel.addOperator(*it);
+                        rpl = ":" + client.getNick() + "!" + client.getUser() + "@" + "localhost" + " MODE " + channel.getName() + " +o " + value + "\r\n";
+                        send(client.getSocketFd(), rpl.c_str(), rpl.length(), 0);
+                        channel.sendMessage(rpl, client);
                         return;
                     }
                 }
@@ -60,6 +73,9 @@ void    addChannelMode(Channel &channel, Client &client, const std::string &mode
                 if (limit > 0 && limit <= 1000)
                 {
                     channel.setMaxClients(limit);
+                    rpl = ":" + client.getNick() + "!" + client.getUser() + "@" + "localhost" + " MODE " + channel.getName() + " +l " + value + "\r\n";
+                    send(client.getSocketFd(), rpl.c_str(), rpl.length(), 0);
+                    channel.sendMessage(rpl, client);
                     return;
                 }
             }
@@ -74,18 +90,28 @@ void    addChannelMode(Channel &channel, Client &client, const std::string &mode
 void removeChannelMode(Channel &channel, Client &client, const std::string &mode, const std::string &value)
 {
     std::string error;
+    std::string rpl;
     switch (mode[0])
     {
         case 't': {
             channel.setTopicMode(false);
+            rpl = ":" + client.getNick() + "!" + client.getUser() + "@" + "localhost" + " MODE " + channel.getName() + " -t\r\n";
+            send(client.getSocketFd(), rpl.c_str(), rpl.length(), 0);
+            channel.sendMessage(rpl, client);
             return;
         }
         case 'i': {
             channel.setInviteOnly(false);
+            rpl = ":" + client.getNick() + "!" + client.getUser() + "@" + "localhost" + " MODE " + channel.getName() + " -i\r\n";
+            send(client.getSocketFd(), rpl.c_str(), rpl.length(), 0);
+            channel.sendMessage(rpl, client);
             return;
         }
         case 'k': {
             channel.setChannelKey("");
+            rpl = ":" + client.getNick() + "!" + client.getUser() + "@" + "localhost" + " MODE " + channel.getName() + " -k\r\n";
+            send(client.getSocketFd(), rpl.c_str(), rpl.length(), 0);
+            channel.sendMessage(rpl, client);
             return;
         }
         case 'o': {
@@ -104,6 +130,9 @@ void removeChannelMode(Channel &channel, Client &client, const std::string &mode
                     if (channel.isOperator(*it) && it->getNick() != client.getNick())
                     {
                         channel.removeOperator(*it);
+                        rpl = ":" + client.getNick() + "!" + client.getUser() + "@" + "localhost" + " MODE " + channel.getName() + " -o " + value + "\r\n";
+                        send(client.getSocketFd(), rpl.c_str(), rpl.length(), 0);
+                        channel.sendMessage(rpl, client);
                         return;
                     }
                     if (it->getNick() == client.getNick())
@@ -119,6 +148,9 @@ void removeChannelMode(Channel &channel, Client &client, const std::string &mode
         }
         case 'l': {
             channel.setMaxClients(-1);
+            rpl = ":" + client.getNick() + "!" + client.getUser() + "@" + "localhost" + " MODE " + channel.getName() + " -l\r\n";
+            send(client.getSocketFd(), rpl.c_str(), rpl.length(), 0);
+            channel.sendMessage(rpl, client);
             return;
         }
     }
