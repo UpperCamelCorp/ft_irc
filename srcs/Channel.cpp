@@ -326,3 +326,7 @@ bool Channel::isClientInvited(const Client &client) const {
     }
     return false;
 }
+
+int Channel::getClientCount() const {
+    return static_cast<int>(this->_clients.size());
+}

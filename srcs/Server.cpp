@@ -102,19 +102,12 @@ void Server::handleClient(Client &client)
 
     memset(buffer, 0, sizeof(buffer));
     bytes_received = recv(client.getSocketFd(), buffer, sizeof(buffer) - 1, 0);
-    if (bytes_received < 0)
-    {
-        closeClient(client.getSocketFd());
-        throw std::runtime_error("Error receiving data from client");
-    }
-    else if (bytes_received == 0)
+    if (bytes_received <= 0)
     {
         std::cout << "Client disconnected" << std::endl;
         closeClient(client.getSocketFd());
         return;
     }
-
-    //std::cout << "From : " << client.getSocketFd() << " received: " << buffer << std::endl;
     client.handleCommand(std::string(buffer, bytes_received));
 }
 

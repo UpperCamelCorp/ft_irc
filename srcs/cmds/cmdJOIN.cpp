@@ -57,6 +57,11 @@ void Client::joinCommand(const std::string& command)
 				ErrInvalid(473, it->second.getName(), this->_socket_fd);
 				continue;
 			}
+			if (it->second.getMaxClients() > 0 && it->second.getClientCount() >= it->second.getMaxClients())
+			{
+				ErrInvalid(471, it->second.getName(), this->_socket_fd);
+				continue;
+			}
 			if (it->second.getPassword() != "")
 			{
 				std::string provided_password = (pass_i < passwords.size()) ? passwords[pass_i] : "";

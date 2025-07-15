@@ -37,6 +37,7 @@ class Channel
         std::string         getChannelKey() const;
         void                setMaxClients(int maxClients);
         int                 getMaxClients() const;
+        int                 getClientCount() const;
         void                setTopic(const std::string &topic);
         void                setPassword(const std::string &password);
         bool                goodPassword(const std::string &password);
