@@ -21,7 +21,6 @@ class Server
         std::map<std::string, Channel> _channels;
         std::vector<struct pollfd> _poll_fds;
 
-        void                       closeClient(int client_fd);
         void                       acceptClient();
         void                       handleClient(Client &client);
 
@@ -29,6 +28,7 @@ class Server
         Server(int port);
         ~Server();
         void                            start();
+        void                            closeClient(int client_fd);
         void                            setPassword(const std::string &password);
         const std::string&              getPassword() const;
         void 							handleSignal(int signal);
