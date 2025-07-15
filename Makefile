@@ -1,5 +1,5 @@
 # Project settings
-NAME        = ircserver
+NAME        = ircserv
 CC          = c++
 CFLAGS      = -Wall -Wextra -Werror -std=c++98 -g3
 RM          = rm -f
