@@ -55,8 +55,10 @@ void Client::kickCommand(const std::string& command)
 
     std::string kick_msg = ":" + this->getNick() + " KICK " + channel_name + " " + target_nick + " :" + reason + "\r\n";
     channel.sendMessage(kick_msg, *this);
-    channel.removeClient(*target);
-    send(target->getSocketFd(), kick_msg.c_str(), kick_msg.length(), 0);
+	send(this->_socket_fd, kick_msg.c_str(), kick_msg.length(), 0);
+	send(target->getSocketFd(), kick_msg.c_str(), kick_msg.length(), 0);
+	channel.removeClient(*target);
+
 
 
 }
