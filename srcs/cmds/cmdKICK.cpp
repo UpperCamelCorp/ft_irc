@@ -42,14 +42,14 @@ void Client::kickCommand(const std::string& command)
     }
     if (!target)
 	{
-        std::string response = ":localhost 441 " + this->getNick() + " " + target_nick + " " + channel_name + " :They aren't on that channel\r\n";
-        send(this->_socket_fd, response.c_str(), response.length(), 0);
-        return;
+        std::string response = ":" + this->getNick() + "!user@localhost PRIVMSG " + channel_name + " :User not in the channel\r\n";
+		send(this->_socket_fd, response.c_str(), response.length(), 0);
+		return;
     }
     if (target->getSocketFd() == this->_socket_fd)
 	{
-        std::string response = ":localhost 502 " + this->getNick() + " :Cannot kick yourself\r\n";
-        send(this->_socket_fd, response.c_str(), response.length(), 0);
+        std::string response = ":" + this->getNick() + "!user@localhost PRIVMSG " + channel_name + " :You cannot kick yourself\r\n";
+		send(this->_socket_fd, response.c_str(), response.length(), 0);
         return;
     }
 
