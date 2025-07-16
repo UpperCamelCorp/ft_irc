@@ -106,6 +106,9 @@ void Client::authClient()
 
 void Client::unavailableCommand(const std::string& command)
 {
+	if (command == "CAP LS")
+		return ;
+	send(_socket_fd, ERR_UNKNOWNCOMMAND(_nickname, command).c_str(), ERR_UNKNOWNCOMMAND(_nickname, command).length(), 0);
 	std::cout << "Error: Command '" << command << "' is not available." << std::endl;
 }
 void Client::ircCommand(const std::string& command)
@@ -128,17 +131,17 @@ void Client::ircCommand(const std::string& command)
     void (Client::*commandFunctions[])(const std::string&) = {
         &Client::nickCommand,
         &Client::userCommand,
-        &Client::passCommand, // PASS
-        &Client::joinCommand, // JOIN
+        &Client::passCommand,
+        &Client::joinCommand,
         &Client::partCommand,
         &Client::privmsgCommand,
         &Client::pingCommand,
-		&Client::inviteCommand, // INVITE
+		&Client::inviteCommand,
         &Client::quitCommand,
         &Client::listCommand,
         &Client::topicCommand,
-        &Client::modeCommand,  // MODE
-		&Client::kickCommand   // KICK
+        &Client::modeCommand,
+		&Client::kickCommand
     };
     std::string commandType = command.substr(0, command.find(' '));
     for (size_t i = 0; i < 13; ++i)
@@ -157,6 +160,7 @@ void Client::ircCommand(const std::string& command)
             return;
         }
     }
+	unavailableCommand(command);
 }
 /* -- Getter / Setter ---------------------------------------------------------------*/
 
