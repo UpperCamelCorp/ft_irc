@@ -209,7 +209,7 @@ void Client::modeCommand(const std::string &command)
             send(this->_socket_fd, response.c_str(), response.length(), 0);
             return;
         }
-        if (mode.length() > 1 && mode[1] == ' ')
+        if (mode.length() > 1)
         {
             std::cerr << "Invalid mode format." << std::endl;
             response = ERR_NEEDMOREPARAMS(this->getNick(), "MODE");
@@ -228,7 +228,7 @@ void Client::modeCommand(const std::string &command)
             send(this->_socket_fd, response.c_str(), response.length(), 0);
             return;
         }
-        if (mode.length() > 1 && mode[1] == ' ')
+        if (mode.length() > 1)
         {
             std::cerr << "Invalid mode format." << std::endl;
             response = ERR_NEEDMOREPARAMS(this->getNick(), "MODE");
