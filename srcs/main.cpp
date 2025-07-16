@@ -19,7 +19,14 @@ int main(int argc, char **argv)
         std::cerr << "Usage: " << argv[0] << " <port>"  << " <password>"<< std::endl;
         return EXIT_FAILURE;
     }
-
+    for (size_t i = 0; i < strlen(argv[1]); i++)
+    {
+        if (!isdigit(argv[1][i]))
+        {
+            std::cerr << "Port must be a number." << std::endl;
+            return EXIT_FAILURE;
+        }
+    }
     int port = atoi(argv[1]);
     if (port <= 0 || port > 65535)
     {
@@ -33,6 +40,19 @@ int main(int argc, char **argv)
     {
         Server server(port);
         std::string password(argv[2]);
+        for (size_t i = 0; i < password.length(); i++)
+        {
+            if (!isalnum(password[i]) && password[i] != '_' && password[i] != '-')
+            {
+                std::cerr << "Password can only contain alphanumeric characters, underscores, and hyphens." << std::endl;
+                return EXIT_FAILURE;
+            }
+            if (password.length() < 6 || password.length() > 20)
+            {
+                std::cerr << "Password must be between 6 and 20 characters long." << std::endl;
+                return EXIT_FAILURE;
+            }
+        }
         server.setPassword(password);
         std::cout << "Server password set to: " << password << std::endl;
         std::cout << "Server started on port " << port << std::endl;

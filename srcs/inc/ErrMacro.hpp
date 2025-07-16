@@ -20,7 +20,7 @@ void	sendServerRpl(int const client_fd, std::string client_buffer);
 // INVITE
 # define ERR_NEEDMOREPARAMS(client, command) (":localhost 461 " + client + " " + command + " :Not enough parameters.\r\n")
 # define ERR_NOSUCHCHANNEL(client, channel) (":localhost 403 " + client + " " + channel + " :No such channel\r\n")
-# define ERR_NOSUCHNICK(client, target) ("localhost 401 " + client + " " + target + " :No such nick/channel\r\n")
+# define ERR_NOSUCHNICK(client, target) (":localhost 401 " + client + " " + target + " :No such nick\r\n")
 # define ERR_ALREADYINVITED(client, target, channel) (":localhost 443 " + client + " " + target + " " + channel + " :is already invited\r\n")
 # define ERR_INVITEYOURSELF(client) (":localhost 502 " + client + " :Cannot invite yourself\r\n")
 # define ERR_USERONCHANNEL(client, nick, channel) (":localhost 443 " + client + " " + nick + " " + channel + " :Is already on channel\r\n")
@@ -111,7 +111,7 @@ void	sendServerRpl(int const client_fd, std::string client_buffer);
 # define RPL_ERROR(user_id, reason) (user_id + " ERROR :" + reason + "\r\n") */
 
 // PRIVMSG
-# define ERR_NOSUCHNICK(client, target) ("localhost 401 " + client + " " + target + " :No such nick/channel\r\n")
+# define ERR_NOSUCHNICK(client, target) (":localhost 401 " + client + " " + target + " :No such nick\r\n")
 # define ERR_NORECIPIENT(client) (":localhost 411 " + client + " :No recipient given PRIVMSG\r\n")
 # define ERR_NOTEXTTOSEND(client) (":localhost 412 " + client + " :No text to send\r\n")
 # define RPL_PRIVMSG(nick, username, target, message) (":" + nick + "!" + username + "@localhost PRIVMSG " + target + " " + message + "\r\n")

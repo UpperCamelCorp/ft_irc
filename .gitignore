@@ -2,5 +2,5 @@ obj/
 .vscode
 .dist
 .DS_Store
-ircserver
+ircserv
 .editorconfig
