@@ -17,7 +17,6 @@ void Client::setServer(Server &server)
 		this->_authStep.isPasswordSet = false;
 	else
 		this->_authStep.isPasswordSet = true;
-	std::cout << "ispasswordset: " << this->_authStep.isPasswordSet << std::endl;
 }
 
 void Client::setSocketFd(int fd)
@@ -65,10 +64,8 @@ void Client::handleCommand(std::string command)
 		}
 		if (!command[0])
 			command = command.substr(1);
-		std::cout << "Executing command: " << execCommand << std::endl;
 		ircCommand(execCommand);
 	} while (command.length() > 0);
-	std::cout << "Command handled successfully." << std::endl;
 }
 
 void Client::authClient()
@@ -155,7 +152,6 @@ void Client::ircCommand(const std::string& command)
 				send(this->_socket_fd, response.c_str(), response.length(), 0);
 				return;
 			}
-            std::cout << "Command type: " << enumtypes[i] << std::endl;
             (this->*commandFunctions[i])(command);
             return;
         }

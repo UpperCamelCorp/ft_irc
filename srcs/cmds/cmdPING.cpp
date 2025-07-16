@@ -20,5 +20,4 @@ void Client::pingCommand(const std::string& command)
 
 	std::string response = "PONG :" + pong_token + "\r\n";
 	send(this->_socket_fd, response.c_str(), response.length(), 0);
-	std::cout << "PONG sent in response to PING with token: " << pong_token << " for client " << (this->_nickname.empty() ? "unregistered" : this->_nickname) << std::endl;
 }
