@@ -53,7 +53,7 @@ void Client::kickCommand(const std::string& command)
         return;
     }
 
-    std::string kick_msg = ":" + this->getNick() + " KICK " + channel_name + " " + target_nick + " :" + reason + "\r\n";
+    std::string kick_msg = ":" + this->getNick() + "!user@localhost KICK " + channel_name + " " + target_nick + " :" + reason + "\r\n";
     channel.sendMessage(kick_msg, *this);
 	send(this->_socket_fd, kick_msg.c_str(), kick_msg.length(), 0);
 	send(target->getSocketFd(), kick_msg.c_str(), kick_msg.length(), 0);
