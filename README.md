@@ -33,20 +33,25 @@ This project aims to create an IRC (Internet Relay Chat) server using C++ and so
 
 3. Run the server:
     ```sh
-    ./ircserver
+    ./ircserv 6690 salutsalut
     ```
 
 ## Usage
 
-1. Start the server:
-    ```sh
-    ./ircserv
-    ```
+1. Start the client :
+   ```sh
+     irssi ( for exemple )
+   ```
 
-2. Connect to the server using an IRC client:
+3. Connect to the server using an IRC client:
+   
     - Server address: `localhost`
-    - Port: `4444`
+    - Port: `6690`
+    - Pass : `salutsalut` ( between 6 and 20 characters )
 
+   ```sh
+   /connect localhost 6690 salutsalut
+   ```
 ## Contributing
 
 Contributions are welcome! Please fork the repository and submit a pull request.
