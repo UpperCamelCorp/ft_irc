@@ -42,6 +42,8 @@ void	Client::privmsgCommand(const std::string& command)
 		if (serverChannels.find(receiver) != serverChannels.end())
 		{
 			it = serverChannels.find(receiver);
+			if (!it->second.isClientInChannel(*this))
+				return (sendError(ERR_USERNOTINCHANNEL(this->getNick(), this->getNick(), receiver), _socket_fd));
 			std::string builded = RPL_PRIVMSG(this->getNick(), this->_username, receiver, text_to_send);
 			it->second.sendMessage(builded, *this);
 		}
