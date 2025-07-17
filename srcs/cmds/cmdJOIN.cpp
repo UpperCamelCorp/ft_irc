@@ -1,5 +1,6 @@
 #include "Server.hpp"
 #include "Irc.hpp"
+#include "ErrMacro.hpp"
 
 static void	ErrInvalid(int error_n, std::string err_arg, int socket_fd)
 {
@@ -67,12 +68,13 @@ void Client::joinCommand(const std::string& command)
 				std::string provided_password = (pass_i < passwords.size()) ? passwords[pass_i] : "";
 				if (!it->second.addClient(*this, provided_password))
 				{
-					ErrInvalid(475, it->second.getName(), this->_socket_fd);
+					std::string errmsg;
+					errmsg = ERR_BADCHANNELKEY(this->getNick(), it->second.getName());
+					send(_socket_fd, errmsg.c_str(), errmsg.length(), 0);
 					i++;
 					pass_i++;
 					continue;
 				}
-				pass_i++;
 			}
 			else
 				it->second.addClient(*this, "");
