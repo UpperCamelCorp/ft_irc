@@ -25,7 +25,9 @@ void	Client::privmsgCommand(const std::string& command)
 	if (args.size() < 2)
 		return sendError(ERR_NOTEXTTOSEND(this->getNick()), this->getSocketFd());
 
-	std::string text_to_send = args[1];
+	int pos;
+	pos = command.find(':');
+	std::string text_to_send = command.substr(pos);
 
 	std::vector<std::string> target;
 	target = split_cmd(args[0], ' ');
