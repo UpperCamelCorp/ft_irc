@@ -40,7 +40,7 @@ This project aims to create an IRC (Internet Relay Chat) server using C++ and so
 
 1. Start the client :
    ```sh
-     irssi ( for exemple )
+     irssi ( for example )
    ```
 
 3. Connect to the server using an IRC client:
