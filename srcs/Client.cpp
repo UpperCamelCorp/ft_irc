@@ -72,32 +72,35 @@ void Client::authClient()
 {
 	std::string response;
 	std::cout << "Authenticating client: " << this->getNick() << std::endl;
-	if (this->_authStep.isNickSet && this->_authStep.isUserSet && this->_authStep.isPasswordSet && !this->_authStep.isRegistered)
+	if (this->_authStep.isPasswordSet)
 	{
-		response = ":localhost 001 " + this->getNick() + " :Welcome to the IRC server, " + this->getNick() + "!\r\n";
-		send(this->_socket_fd, response.c_str(), response.length(), 0);
-		this->_authStep.isRegistered = true;
-		std::cout << "Client " << this->getNick() << " is now registered." << std::endl;
-	}
-	else if (this->_authStep.isNickSet && this->_authStep.isUserSet && !this->_authStep.isPasswordSet)
-	{
-		response = ERR_PASSWDMISMATCH(this->getNick());
-		send(this->_socket_fd, response.c_str(), response.length(), 0);
-		this->_server->closeClient(this->getSocketFd());
-		std::cout << "Client disconnected" << std::endl;
+		if (this->_authStep.isNickSet && this->_authStep.isUserSet && !this->_authStep.isRegistered)
+		{
+			response = ":localhost 001 " + this->getNick() + " :Welcome to the IRC server, " + this->getNick() + "!\r\n";
+			send(this->_socket_fd, response.c_str(), response.length(), 0);
+			this->_authStep.isRegistered = true;
+			std::cout << "Client " << this->getNick() << " is now registered." << std::endl;
+		}
+		else
+		{
+			std::cout << "Client is not fully authenticated yet." << std::endl;
+			if (!this->_authStep.isNickSet)
+			{
+				std::cout << "Nickname is not set." << std::endl;
+				return;
+			}
+			if (!this->_authStep.isUserSet)
+				std::cout << "User information is not set." << std::endl;
+			response = ":localhost 451 " + this->getNick() + " :You must set your nickname and user information before registering.\r\n";
+			send(this->_socket_fd, response.c_str(), response.length(), 0);
+		}
 	}
 	else
 	{
-		std::cout << "Client is not fully authenticated yet." << std::endl;
-		if (!this->_authStep.isNickSet)
-		{
-			std::cout << "Nickname is not set." << std::endl;
-			return;
-		}
-		if (!this->_authStep.isUserSet)
-			std::cout << "User information is not set." << std::endl;
-		response = ":localhost 451 " + this->getNick() + " :You must set your nickname and user information before registering.\r\n";
-		send(this->_socket_fd, response.c_str(), response.length(), 0);
+			response = ERR_PASSWDMISMATCH(this->getNick());
+			send(this->_socket_fd, response.c_str(), response.length(), 0);
+			this->_server->closeClient(this->getSocketFd());
+			std::cout << "Client disconnected" << std::endl;
 	}
 }
 

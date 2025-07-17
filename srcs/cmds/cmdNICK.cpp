@@ -36,6 +36,8 @@ void Client::nickCommand(const std::string& command)
 			arglist.push_back(segment);
 		}
 	}
+	if (!this->_authStep.isRegistered)
+		authClient();
 	if (arglist.size() < 2)
 	{
 		response = ERR_NONICKNAMEGIVEN(this->getNick());
